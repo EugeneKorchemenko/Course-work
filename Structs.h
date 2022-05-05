@@ -16,6 +16,6 @@ struct Project
 };
 struct Account
 {
-	string login, password, salt;
+	string login, password, salt, hash_password_with_salt;
 	int status, role;
 };

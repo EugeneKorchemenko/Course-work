@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include "Structs.h"
+#include "ViewData.h"
 
 using namespace std;
 

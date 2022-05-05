@@ -2,6 +2,9 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include "Structs.h"
+#include "ViewData.h"
+#include "Search.h"
 
 using namespace std;
 

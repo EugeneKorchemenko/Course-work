@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "Structs.h"
+#include "Constants.h"
 
 using namespace std;
 

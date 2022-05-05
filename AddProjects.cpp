@@ -1,5 +1,3 @@
-#include "Structs.h"
-#include "Constants.h"
 #include "AddProject.h"
 
 void addProjectsInVector(vector<TypeOfWork>& vector_of_works)
@@ -25,16 +23,23 @@ void addProjectsInVector(vector<TypeOfWork>& vector_of_works)
 		}
 	}
 }
-void inputInformation(TypeOfWork& work_temp, string name, vector<TypeOfWork>& vector_of_works)
+void inputInformation(TypeOfWork& work_temp, string name, vector<TypeOfWork> vector_of_works)
 {
-	work_temp.project_name = name;
-	chooseWorkName(work_temp);
-	cout << "Enter FIO of employee" << endl;
-	cin >> work_temp.FIO;
-	cout << "Enter ammount of hours" << endl;
-	cin >> work_temp.ammount_of_hours;
-	cout << "Enter " << work_temp.FIO << "'s hourly cost" << endl;
-	cin >> work_temp.cost_per_hour;
+	while (1)
+	{
+		work_temp.project_name = name;
+		chooseWorkName(work_temp);
+		cout << "Enter FIO of employee" << endl;
+		cin >> work_temp.FIO;
+		cout << "Enter ammount of hours" << endl;
+		cin >> work_temp.ammount_of_hours;
+		cout << "Enter " << work_temp.FIO << "'s hourly cost" << endl;
+		cin >> work_temp.cost_per_hour;
+		if (chekIfEmployeeDoSameWorkOnProject(work_temp, vector_of_works))
+			break;
+		else
+			continue;
+	}
 }
 void chooseWorkName(TypeOfWork& work)
 {
@@ -68,4 +73,18 @@ void writeEndFileProject(TypeOfWork work_temp, vector<TypeOfWork> vector_of_work
 			<< work_temp.cost_per_hour;
 	}
 	fout.close();
+}
+bool chekIfEmployeeDoSameWorkOnProject(TypeOfWork work_temp, vector<TypeOfWork> vector_of_works)
+{
+	int j = 0;
+	while (j < vector_of_works.size())
+	{
+		if (work_temp.FIO == vector_of_works.at(j).FIO && work_temp.name == vector_of_works.at(j).name && work_temp.project_name == vector_of_works.at(j).project_name)
+		{
+			cout << endl << "This employee has already involved in this type of work in this project. Try again" << endl << endl;
+			return false;
+		}
+		j++;
+	}
+	return true;
 }

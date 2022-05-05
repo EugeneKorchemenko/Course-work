@@ -1,6 +1,4 @@
-#include "Structs.h"
 #include "GenerateData.h"
-#include "Constants.h"
 
 void generateProjectsVector(vector<TypeOfWork>& vector_of_works)
 {

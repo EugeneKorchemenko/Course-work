@@ -2,6 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "Structs.h"
+#include "AddProject.h"
+#include "GenerateData.h"
 
 using namespace std;
 

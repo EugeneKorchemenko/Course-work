@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Accounts.cpp" />
     <ClCompile Include="AddProjects.cpp" />
     <ClCompile Include="Autorisation.cpp" />
     <ClCompile Include="Delete.cpp" />
@@ -146,23 +147,26 @@
     <ClCompile Include="EntranceMenu.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuForAdmin.cpp" />
-    <ClCompile Include="PrintHeader.cpp" />
+    <ClCompile Include="MenuForUser.cpp" />
     <ClCompile Include="Search.cpp" />
+    <ClCompile Include="sha256.cpp" />
     <ClCompile Include="Sort.cpp" />
     <ClCompile Include="GenerateData.cpp" />
     <ClCompile Include="ViewData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Accounts.h" />
     <ClInclude Include="AddProject.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Delete.h" />
     <ClInclude Include="Edit.h" />
     <ClInclude Include="EntranceMenu.h" />
-    <ClInclude Include="Figlet.h" />
     <ClInclude Include="GenerateData.h" />
     <ClInclude Include="Autorisation.h" />
     <ClInclude Include="MenuForAdmin.h" />
-    <ClInclude Include="PrintHeader.h" />
+    <ClInclude Include="MenuForUser.h" />
     <ClInclude Include="Search.h" />
+    <ClInclude Include="sha256.h" />
     <ClInclude Include="Sort.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="ViewData.h" />

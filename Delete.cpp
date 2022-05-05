@@ -1,6 +1,4 @@
-#include "Structs.h"
 #include "Delete.h"
-#include "GenerateData.h"
 
 void delProjectsFromVector(vector<TypeOfWork>& vector_of_works)
 {

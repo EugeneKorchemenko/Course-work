@@ -1,7 +1,5 @@
-#include "Structs.h"
+
 #include "Edit.h"
-#include "AddProject.h"
-#include "GenerateData.h"
 
 void chooseKindOfEdition(vector<TypeOfWork>& vector_of_works)
 {
@@ -15,7 +13,7 @@ void chooseKindOfEdition(vector<TypeOfWork>& vector_of_works)
 	}
 	cin >> choice;
 	cout << "1)Edit all information about project\n2)Edit name of project\n3)Edit employee\n4)Add employees in prject\n5)Delete employee from project" << endl;
-	editPoject(vector_of_works, choice);
+	editPoject(vector_of_works, choice - 1);
 }
 void editPoject(vector<TypeOfWork>& vector_of_works, int choice)
 {
@@ -45,7 +43,7 @@ void editWholeProject(vector<TypeOfWork>& vector_of_works, int choice)
 	string name;
 	TypeOfWork work_temp;
 	int size;
-	name = vector_of_works.at(choice - 1).project_name;
+	name = vector_of_works.at(choice).project_name;
 	for (int i = 0; i < vector_of_works.size(); i++)
 	{
 		if (vector_of_works.at(i).project_name == name)
@@ -95,29 +93,26 @@ void editEmployeeInProject(vector<TypeOfWork>& vector_of_works, int choice)
 void addEmployeesInProject(vector<TypeOfWork>& vector_of_works, int choice)
 {
 	TypeOfWork work_temp;
-	string name = vector_of_works.at(choice - 1).project_name;
+	string name = vector_of_works.at(choice).project_name;
 	int number_of_employees;
 	cout << "Enter how many employees do you want to add in project" << endl;
 	cin >> number_of_employees;
-	for (int i = choice; vector_of_works.at(i).project_name == name; i++)
+	for (int i = choice, j = choice; i < choice + number_of_employees; i++)
 	{
-		if (vector_of_works.at(i + 1).project_name != vector_of_works.at(i).project_name)
-		{
-			for (int n = 0; n < number_of_employees; n++)
-			{
-				inputInformation(work_temp, name, vector_of_works);
-				vector_of_works.emplace(vector_of_works.begin() + i++, work_temp);
-			}
-		}
-		writeFileProjects(vector_of_works);
+		inputInformation(work_temp, name, vector_of_works);
+		if (vector_of_works.size() == i)
+			vector_of_works.push_back(work_temp);
+		else
+			vector_of_works.emplace(vector_of_works.begin() + i + 1, work_temp);
 	}
+	writeFileProjects(vector_of_works);
 }
 void deleteEmployee(vector<TypeOfWork>& vector_of_works, int choice)
 {
 	int descission;
 	cout << "Choose employee:" << endl;
 	string name = vector_of_works.at(choice).project_name;
-	for (int i = choice - 1; vector_of_works.at(i).project_name == name; i++)
+	for (int i = choice; i < vector_of_works.size() && vector_of_works.at(i).project_name == name; i++)
 	{
 		cout << i + 1 << ")" << vector_of_works.at(i).FIO << endl;// исправить номер сотрудника
 	}

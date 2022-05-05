@@ -1,7 +1,4 @@
-#include "Structs.h"
 #include "Sort.h"
-#include "ViewData.h"
-#include "Search.h"
 
 void sortProjects(vector<TypeOfWork> vector_of_works)
 {

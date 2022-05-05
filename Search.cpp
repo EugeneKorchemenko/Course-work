@@ -1,6 +1,5 @@
-#include "Structs.h"
 #include "Search.h"
-#include "ViewData.h"
+
 
 void searchForProject(vector<TypeOfWork> vector_of_works)
 {
@@ -59,38 +58,43 @@ void searchProjectByAmmountOfEmployees(vector<TypeOfWork> vector_of_works, vecto
 }
 void countAmmountOfEmploeyeesInProject(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search, int choice, bool& flag)
 {
-	int ammount_of_employees = 0;
-	for (int i = 0, writed_emploeeys = 0, j = 0, first_employee_of_project = 0; i < vector_of_works.size(); i++)
+	for (int i = 0, j = 0, firs_employee_in_project = 0, ammount_of_employees = 0; i < vector_of_works.size(); i++)
 	{
-		if (i == 0 || vector_of_works.at(i).project_name == vector_of_works.at(j).project_name)
+		if (vector_of_works.at(i).project_name == vector_of_works.at(firs_employee_in_project).project_name)
 			ammount_of_employees++;
-		if (vector_of_works.at(i).project_name != vector_of_works.at(j).project_name || i + 1 == vector_of_works.size())
+		if (i + 1 == vector_of_works.size() || vector_of_works.at(i).project_name != vector_of_works.at(firs_employee_in_project).project_name)
 		{
 			if (ammount_of_employees < choice)
 			{
+				firs_employee_in_project = i;
 				ammount_of_employees = 1;
-				j = i;
 				continue;
 			}
 			else
 			{
-				first_employee_of_project = j; //first_employee_of_project и j - первый сотрудник запиываемого проекта
-				// переписываем проект в вектор
-				while (writed_emploeeys < ammount_of_employees)
+				j = firs_employee_in_project;
+				if (search.empty())
+					firs_employee_in_project = 0;
+				while (j < i)
 				{
 					search.push_back(vector_of_works.at(j));
-					writed_emploeeys++;
 					j++;
 				}
-				findRepeatingEmployees(search, ammount_of_employees); //  ищем повторяющихся сотрудников, если нашли то уменьшоем количество сотрудников (изначльно считвем количество видов работ)
+				findRepeatingEmployees(search, ammount_of_employees);
 				if (ammount_of_employees == choice)
 					flag = true;
 				else
-					search.erase(search.cbegin() + first_employee_of_project, search.cend());
+					search.erase(search.cbegin() + firs_employee_in_project, search.cend());
 			}
 			ammount_of_employees = 1;
-			writed_emploeeys = 0;
+			firs_employee_in_project = i;
+			if (i + 1 == vector_of_works.size() && (choice == ammount_of_employees || vector_of_works.at(i).project_name == vector_of_works.at(firs_employee_in_project).project_name))
+			{
+				search.push_back(vector_of_works.at(i));
+				flag = true;
+			}
 		}
+		
 	}
 }
 void findRepeatingEmployees(vector<TypeOfWork> search, int& ammount_of_employees)
@@ -129,20 +133,24 @@ void searchProjectsWithSuitableCost(vector<TypeOfWork> vector_of_works, vector<T
 	cin >> max_cost;
 	for (int i = 0, j = 0; i < vector_of_works.size(); i++)
 	{
-		if (i == 0 || vector_of_works.at(i).project_name == vector_of_works.at(i - 1).project_name)
+		if (i == 0 || vector_of_works.at(i).project_name == vector_of_works.at(j).project_name)
 			cost += vector_of_works.at(i).ammount_of_hours * vector_of_works.at(i).cost_per_hour;
-		else
+		if (vector_of_works.at(i).project_name != vector_of_works.at(j).project_name || i + 1 == vector_of_works.size())
 		{
 			if (cost > max_cost || cost < min_cost)
 			{
 				cost = 0;
 				j = i;
+				if (i + 1 != vector_of_works.size()) // иначе никогда не выйдем
+					i--;
 				continue;
 			}
 			else
 			{
 				writeProjectInVector(vector_of_works, search, j, i - 1);
 				j = i;
+				if (i + 1 != vector_of_works.size())
+					i--;
 				cost = 0;
 			}
 		}
@@ -150,7 +158,7 @@ void searchProjectsWithSuitableCost(vector<TypeOfWork> vector_of_works, vector<T
 	if (!search.empty())
 		showProjectVector(search);
 	else
-		cout << "There isn't any project with the same cost" << endl;
+		cout<< endl << "There isn't any project with the same cost" << endl;
 }
 void writeProjectInVector(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search, int j, int i)
 {

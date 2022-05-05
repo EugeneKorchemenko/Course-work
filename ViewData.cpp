@@ -1,7 +1,4 @@
-#include "Structs.h"
 #include "ViewData.h"
-#include "Sort.h"
-
 
 void showProjectVector(vector <TypeOfWork>& vector_of_works)
 {
@@ -14,14 +11,14 @@ void showProjectVector(vector <TypeOfWork>& vector_of_works)
 		{
 			cout << endl << "Project: " << vector_of_works.at(i).project_name << endl << endl;
 			cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
-			cout << "| TYPE OF WORK | SURNAME OF THE EMPLOYEE |\t| HOURS |\t| COST PER/HOUR |\n";
+			cout << "| TYPE OF WORK | SURNAME OF THE EMPLOYEE | HOURS | COST/HOUR|\n";
 			*pointer_ammount_of_projects += 1;
 		}
 		cost += vector_of_works.at(i).ammount_of_hours * vector_of_works.at(i).cost_per_hour;
-		cout << vector_of_works.at(i).name << '\t'
-			<< vector_of_works.at(i).FIO << '\t'
-			<< vector_of_works.at(i).ammount_of_hours << '\t'
-			<< vector_of_works.at(i).cost_per_hour << endl;
+		cout << "|" << vector_of_works.at(i).name << setw(15 - vector_of_works.at(i).name.size())
+			<< "|" << vector_of_works.at(i).FIO << setw(26 - vector_of_works.at(i).FIO.size())
+			<< "|" << vector_of_works.at(i).ammount_of_hours << setw(8 - num(vector_of_works.at(i).ammount_of_hours))
+			<< "|" << vector_of_works.at(i).cost_per_hour << '\t' << "    |" << endl;
 		vector_of_works.at(i).cost_of_type_of_work = vector_of_works.at(i).ammount_of_hours * vector_of_works.at(i).cost_per_hour;
 
 		if (i + 1 == vector_of_works.size() || vector_of_works.at(i).project_name != vector_of_works.at(i + 1).project_name)
@@ -42,7 +39,7 @@ void showInfoAboutAllTypesOfWork(vector<TypeOfWork> vector_of_works, int& cost, 
 	{
 		cout << "Work on requirements \tCost: ";
 		cout << cost << "\t";
-		cout << "Number of employees involved in: ";
+		cout << "Number of employees involved: ";
 		cout << employees << endl;
 	}
 	calculateTypeOfWork(vector_of_works, cost, employees, first, i, "Development");
@@ -50,7 +47,7 @@ void showInfoAboutAllTypesOfWork(vector<TypeOfWork> vector_of_works, int& cost, 
 	{
 		cout << "Development\t\tCost: ";
 		cout << cost << "\t";
-		cout << "Number of employees involved in development: ";
+		cout << "Number of employees involved: ";
 		cout << employees << endl;
 	}
 	calculateTypeOfWork(vector_of_works, cost, employees, first, i, "Implementation");
@@ -124,15 +121,18 @@ void showPersonalInformationAboutEmployee(vector<TypeOfWork>& search)
 {
 	sortProjectByTypeOfWork(search);
 	int cost = 0, hours = 0;
-	cout << "| POJECT | TYPE OF WORK |\t| HOURS|\t| COST PER/HOUR |\n";
+	cout << "-----------------------------------------------------" << endl;
+	cout << endl << "Employee: " << search.at(0).FIO << endl << endl;
+	cout << "-----------------------------------------------------" << endl;
+	cout << "|      POJECT      | TYPE OF WORK | HOURS| COST/HOUR|\n";
 	for (int i = 0; i < search.size(); i++)
 	{
 		cost += search.at(i).ammount_of_hours * search.at(i).cost_per_hour;
 		hours += search.at(i).ammount_of_hours;
-		cout << search.at(i).project_name << '\t'
-			<< search.at(i).name << '\t'
-			<< search.at(i).ammount_of_hours << '\t'
-			<< search.at(i).cost_per_hour << endl;
+		cout << "|" << search.at(i).project_name << setw(19 - search.at(i).project_name.size())
+			<< "|" << search.at(i).name << setw(15 - search.at(i).name.size())
+			<< "|" << search.at(i).ammount_of_hours << setw(8 - num(search.at(i).ammount_of_hours))
+			<< "|" << search.at(i).cost_per_hour << '\t' << "    |" << endl;
 		search.at(i).cost_of_type_of_work = search.at(i).ammount_of_hours * search.at(i).cost_per_hour;
 		if (i + 1 == search.size() /*|| search.at(i).project_name != search.at(i + 1).project_name*/)
 			showInfoAboutAllProjects(search, cost, hours, i);
@@ -140,9 +140,9 @@ void showPersonalInformationAboutEmployee(vector<TypeOfWork>& search)
 }
 void showInfoAboutAllProjects(vector<TypeOfWork> search, int& cost, int& hours, int i)
 {
-	cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
+	cout << "-----------------------------------------------------" << endl;
 	cout << " Hours: " << hours << "\tEarnings: " << cost << endl;
-	cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
+	cout << "-----------------------------------------------------" << endl;
 	// выводим более детальную информацию если сатрудник работает на нескольких проектах
 	if (search.size() != 1)
 	{
@@ -158,7 +158,7 @@ void showInfoAboutAllProjects(vector<TypeOfWork> search, int& cost, int& hours, 
 			else
 				first--;
 		}
-		cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
+		cout << "-----------------------------------------------------" << endl;
 	}
 	cost = 0;
 	hours = 0;
@@ -181,4 +181,12 @@ void calculateProject(vector<TypeOfWork> search, int& cost, int& hours, int& fir
 		else
 			break;
 	}
+}
+
+int num(int x) //getCountOfNumbersInNumber
+{
+	int numbers = 1;
+	while ((x /= 10) > 0)
+		numbers++;
+	return numbers;
 }
