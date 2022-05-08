@@ -1,7 +1,6 @@
 #include "MenuForAdmin.h"
 
-
-void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works)
+void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login)
 {
 	vector_of_works.resize(getCountOfTypesOfWorkInFile(FILE_DATA));
 	doesFileExist(vector_of_works);
@@ -15,26 +14,30 @@ void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vec
 		{
 		case 1: workWithData(vector_of_works);
 			break;
-		case 2: workWithAcccounts(vector_of_accaunts);
+		case 2: workWithAcccounts(vector_of_accaunts, login);
 			break;
 		case 0: return;
 			break;
 		}
 	}
 }
-void workWithAcccounts(vector <Account>& vector_of_accaunts)
+void workWithAcccounts(vector <Account>& vector_of_accaunts, string login)
 {
 	int n = 1, choice;
 	while (n != 0)
 	{
 		cout << "\t________MENU_______" << endl;
-		cout << "1 Show list of accounts\n2 Show current registration applications\n0 Exit" << endl;
+		cout << "1 Show list of accounts\n2 Show outgoing registration applications\n3 Edit accounts\n4 Change password\n0 Exit" << endl;
 		cin >> choice;
 		switch (choice)
 		{
-		case 1: showListOfAccounts(vector_of_accaunts);
+		case 1: showListOfAccounts(vector_of_accaunts); sortAccounts(vector_of_accaunts);
 			break;
 		case 2: showApplications(vector_of_accaunts);
+			break;
+		case 3: editAccounts(vector_of_accaunts, login);
+			break;
+		case 4: changePassword(vector_of_accaunts, login);
 			break;
 		case 0: return;
 			break;

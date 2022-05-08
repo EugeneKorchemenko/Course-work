@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//сортировка
+//сортировка проектов
 void sortProjects(vector<TypeOfWork> vector_of_works);
 //сортировка по стоимости проекта 
 void sortProjectsByCost(vector<TypeOfWork>& sorted, vector <Project>& vector_of_projects, vector<TypeOfWork> vector_of_works);
@@ -25,3 +25,16 @@ bool compareByCostDescendingOfEmployees(const Project& first, const Project& sec
 void sortProjectsByName(vector<TypeOfWork>& sorted, vector <TypeOfWork> vector_of_works);
 bool compareByNameAscending(const TypeOfWork& first, const TypeOfWork& second);
 bool compareByNameDescending(const TypeOfWork& first, const TypeOfWork& second);
+
+//сортировка аккаунтов
+void sortAccounts(vector <Account> vector_of_accaunts);
+//сортировка аакунтов по логину
+void sortAccountByLogin(vector <Account> vector_unverified_accounts);
+bool compareByLoginAscending(const Account& first, const Account& second);
+bool compareByLoginDescending(const Account& first, const Account& second);
+//сортировка аакунтов роли
+void sortAccountByRole(vector <Account> vector_of_accaunts);
+bool compareByRole(const Account& first, const Account& second);
+//сортировка аакунтов по статусу
+void sortAccountByStatus(vector <Account> vector_of_accaunts);
+bool compareByStatus(const Account& first, const Account& second);

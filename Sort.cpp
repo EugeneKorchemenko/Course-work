@@ -7,7 +7,7 @@ void sortProjects(vector<TypeOfWork> vector_of_works)
 	int choice = 0;
 	cout << "\t\t________SORT________" << endl;
 	cout << "Choose how you want to sort projects:" << endl;
-	cout << "1)By project's cost\n2)By ammount of employees\n3)By name\n0)Exit view" << endl;
+	cout << "1 By project's cost\n2 By ammount of employees\n3 By name\n0 Exit view" << endl;
 	cin >> choice;
 	switch (choice)
 	{
@@ -129,4 +129,63 @@ bool compareByNameAscending(const TypeOfWork& first, const TypeOfWork& second)
 bool compareByNameDescending(const TypeOfWork& first, const TypeOfWork& second)
 {
 	return first.project_name > second.project_name;
+}
+
+void sortAccounts(vector <Account> vector_of_accaunts)
+{
+	cout << "\t\t________SORT________" << endl;
+	int choice;
+	cout << "Choose how you want to sort accounts:\n1 By login\n2 By Role\n3 By status\n0 Exit view" << endl;
+	cin >> choice;
+	switch (choice)
+	{
+	case 1: sortAccountByLogin(vector_of_accaunts);
+		break;
+	case 2: sortAccountByRole(vector_of_accaunts);
+		break;
+	case 3: sortAccountByStatus(vector_of_accaunts);
+		break;
+	case 0: return;
+		break;
+	}
+}
+void sortAccountByLogin(vector <Account> vector_of_accaunts)
+{
+	int choice;
+	cout << "Choose how you wnat to sort logins\n1)By A-Z\n2)By Z-A" << endl;
+	cin >> choice;
+	if (choice == 1)
+		sort(vector_of_accaunts.begin(), vector_of_accaunts.end(), compareByLoginAscending);
+	else
+		sort(vector_of_accaunts.begin(), vector_of_accaunts.end(), compareByLoginDescending);
+	showListOfAccounts(vector_of_accaunts);
+	sortAccounts(vector_of_accaunts);
+}
+bool compareByLoginAscending(const Account& first, const Account& second)
+{
+	return first.login < second.login;
+}
+bool compareByLoginDescending(const Account& first, const Account& second)
+{
+	return first.login > second.login;
+}
+void sortAccountByRole(vector <Account> vector_of_accaunts)
+{
+	sort(vector_of_accaunts.begin(), vector_of_accaunts.end(), compareByRole);
+	showListOfAccounts(vector_of_accaunts);
+	sortAccounts(vector_of_accaunts);
+}
+bool compareByRole(const Account& first, const Account& second)
+{
+	return first.role > second.role;
+}
+void sortAccountByStatus(vector <Account> vector_of_accaunts)
+{
+	sort(vector_of_accaunts.begin(), vector_of_accaunts.end(), compareByStatus);
+	showListOfAccounts(vector_of_accaunts);
+	sortAccounts(vector_of_accaunts);
+}
+bool compareByStatus(const Account& first, const Account& second)
+{
+	return first.status > second.status;
 }

@@ -1,7 +1,6 @@
-
 #include "MenuForUser.h"
 
-void menuForUser(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works)
+void menuForUser(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works, string login)
 {
 	vector_of_works.resize(getCountOfTypesOfWorkInFile(FILE_DATA));
 	doesFileExist(vector_of_works);
@@ -9,7 +8,7 @@ void menuForUser(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vecto
 	while (n != 0)
 	{
 		cout << "\t________MENU_______" << endl;
-		cout << "1 Show information about projects\n2 Search by projects\n0 Exit" << endl;
+		cout << "1 Show information about projects\n2 Search by projects\n3 Change password\n0 Exit" << endl;
 		cin >> n;
 		switch (n)
 		{
@@ -18,6 +17,8 @@ void menuForUser(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vecto
 			break;
 		case 2:
 			searchForProject(vector_of_works);
+			break;
+		case 3: changePassword(vector_of_accaunts, login);
 			break;
 		case 0: break;
 		default:

@@ -124,7 +124,7 @@ void showPersonalInformationAboutEmployee(vector<TypeOfWork>& search)
 	cout << "-----------------------------------------------------" << endl;
 	cout << endl << "Employee: " << search.at(0).FIO << endl << endl;
 	cout << "-----------------------------------------------------" << endl;
-	cout << "|      POJECT      | TYPE OF WORK | HOURS| COST/HOUR|\n";
+	cout << "|      POJECT      | TYPE OF WORK | HOURS | COST/HOUR|\n";
 	for (int i = 0; i < search.size(); i++)
 	{
 		cost += search.at(i).ammount_of_hours * search.at(i).cost_per_hour;
@@ -189,4 +189,82 @@ int num(int x) //getCountOfNumbersInNumber
 	while ((x /= 10) > 0)
 		numbers++;
 	return numbers;
+}
+
+void showListOfAccounts(vector <Account>& vector_of_accaunts)
+{
+	if (vector_of_accaunts.size() != 0)
+	{
+		//header
+		cout << "-----------------------------------------" << endl;
+		cout << "| # |      LOGIN      | ROLE |  STATUS  |" << endl;
+		cout << "-----------------------------------------" << endl;
+		for (int i = 0; i < vector_of_accaunts.size(); i++)
+		{
+			cout << "|" << i + 1 << setw(4 - num(i)) << "|" << vector_of_accaunts.at(i).login << setw(18 - vector_of_accaunts.at(i).login.size()) <<
+				"|" << getRole(vector_of_accaunts.at(i).role) << /*setw(8 - size) <<*/
+				"|" << getStatus(vector_of_accaunts.at(i).status) /*<< setw(11 - size)*/ << "|" << endl;
+		}
+		cout << "-----------------------------------------" << endl;
+	}
+}
+string getStatus(int status)
+{
+	string s;
+	switch (status)
+	{
+	case 0: s = "Unverified";
+		break;
+	case 1: s = "Activated ";
+		break;
+	case 2: s = "Blockeded ";
+		break;
+	}
+	return s;
+}
+string getRole(int role)
+{
+	string s;
+	switch (role)
+	{
+	case 1: s = "User  ";
+		break;
+	case 2:
+	case 3: s = "Admin ";
+		break;
+	}
+	return s;
+}
+
+void showApplications(vector <Account>& vector_of_accaunts)
+{
+	vector <Account> vector_unverified_accounts;
+	for (int i = 0; i < vector_of_accaunts.size(); i++)
+	{
+		if (vector_of_accaunts.at(i).status == 0)
+			vector_unverified_accounts.push_back(vector_of_accaunts.at(i));
+	}
+	if (vector_unverified_accounts.size() != 0)
+	{
+		showListOfAccounts(vector_unverified_accounts);
+		int choice;
+		while (vector_unverified_accounts.size() != 0)
+		{
+			cout << "Choose:\n1 Sort alphabetically\n2 Approve the application\n3 Deny the application\n0 Back" << endl;
+			cin >> choice;
+			switch (choice)
+			{
+			case 1: sortAccountByLogin(vector_unverified_accounts);
+				break;
+			case 2: approveApplication(vector_unverified_accounts, vector_of_accaunts);
+				break;
+			case 3: deleteApplication(vector_unverified_accounts, vector_of_accaunts);
+				break;
+			case 0: return;
+				break;
+			}
+			// отчистка коенсоли
+		}
+	}
+	cout << "There are no outgoing requests for application" << endl;
 }

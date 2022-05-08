@@ -18,12 +18,6 @@
     <ClCompile Include="ViewData.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="GenerateData.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="AddProjects.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Edit.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -31,9 +25,6 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Sort.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Delete.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="MenuForAdmin.cpp">
@@ -45,33 +36,21 @@
     <ClCompile Include="Autorisation.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="EntranceMenu.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="sha256.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="MenuForUser.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Accounts.cpp">
+    <ClCompile Include="Write.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GenerateData.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="AddProject.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Edit.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Structs.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Delete.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="ViewData.h">
@@ -89,9 +68,6 @@
     <ClInclude Include="Autorisation.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="EntranceMenu.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -101,7 +77,7 @@
     <ClInclude Include="MenuForUser.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Accounts.h">
+    <ClInclude Include="Write.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

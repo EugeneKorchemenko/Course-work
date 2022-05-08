@@ -25,3 +25,10 @@ void calculateProject(vector<TypeOfWork> search, int& cost, int& hours, int& r, 
 
 //getCountOfNumbersInNumber
 int num(int x);
+
+// вывод на экран вектора аккаунтов
+void showListOfAccounts(vector <Account>& vector_of_accaunts);
+string getStatus(int status);
+string getRole(int role);
+// показать заявки на добавление аккаунтов
+void showApplications(vector <Account>& vector_of_accaunts);

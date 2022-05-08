@@ -5,8 +5,6 @@ void autorisatie()
 	vector<Account> vector_of_accaunts;
 	vector_of_accaunts.resize(getCountOfAccounts(FILE_ACCOUNTS));
 	readAccountsBase(vector_of_accaunts);
-	system("chcp 437");
-	system("cls");
 	menu(vector_of_accaunts);
 }
 
@@ -25,7 +23,7 @@ void readAccountsBase(vector <Account>& vector_of_accaunts)
 	ifstream fin(FILE_ACCOUNTS, ios::binary | ios::in);
 	if (!fin.is_open())
 	{
-		cout << "File doesn't exist!\nYou became admin\n!!! CONGRATULATIONS !!!" << endl;
+		cout << "File doesn't exist!\nYou became main admin\n!!! CONGRATULATIONS !!!" << endl;
 		singUp(vector_of_accaunts);
 	}
 	else
@@ -35,7 +33,7 @@ void readAccountsBase(vector <Account>& vector_of_accaunts)
 		{
 			fin >> vector_of_accaunts[i].login
 				>> vector_of_accaunts[i].salt
-				>> vector_of_accaunts[i].password
+				>> vector_of_accaunts[i].hash_password_with_salt
 				>> vector_of_accaunts[i].role
 				>> vector_of_accaunts[i].status;
 			if (i + 1 == vector_of_accaunts.size())
@@ -59,7 +57,7 @@ int menu(vector <Account>& vector_of_accaunts)
 	while (true)
 	{
 		cout << "\t__________ENTARANCE__________" << endl;
-		cout << "1 Log in\n2 Sing up\n0 Exit" << endl;
+		cout << "1 Log in\n2 Create new account\n0 Exit" << endl;
 		cin >> choice;
 		switch (choice)
 		{
@@ -76,21 +74,31 @@ int menu(vector <Account>& vector_of_accaunts)
 void singUp(vector <Account>& vector_of_accaunts)
 {
 	int choice;
+	bool flag = false;
+	string password1, password2;
 	Account account_temp;
-	cout << "Enter login: ";
-	cin >> account_temp.login;
-	// проверяем на уникальность
-
-	cout << "Enter password: ";
-	cin >> account_temp.password;
-	cout << "Enter it again: ";
-	cin >> account_temp.password;
-	// прверяем что они совпадают и соответсвуют нашим стандартам ( X+1 и более 5 символов)
-
+	while (flag == false)
+	{
+		cout << "Enter login: ";
+		cin >> account_temp.login;
+		flag = isLoginUnique(account_temp, vector_of_accaunts);   // проверяем логин на уникальность
+		cout << "Enter password: ";
+		cin >> password1;
+		cout << "Enter it again: ";
+		cin >> password2;
+		flag = isPasswordSuitable(account_temp, password1, password2);  // проверяем что пароли совпадают и соответсвуют нашим стандартам (X, 1 и более 5 символов)
+		if (flag == false)
+		{
+			cout << endl << "Incorrect input. Please try again" << endl;
+			cout << endl << "If you want go back press 0" << endl;;
+			choice = _getch();
+			account_temp.password.clear();
+			if (choice == '0')
+				break;
+		}
+	}
 	hashPassword(account_temp);
-	
-	// условие если список аккаунтов пуст то создаём администратора  status
-	if (vector_of_accaunts.size() == 0 || vector_of_accaunts.at(0).login.empty())
+	if (vector_of_accaunts.size() == 0 || vector_of_accaunts.at(0).login.empty()) // условие если список аккаунтов пуст то создаём администратора  status
 	{
 		account_temp.role = 3; // админ админов )
 		account_temp.status = 1;
@@ -114,6 +122,47 @@ void singUp(vector <Account>& vector_of_accaunts)
 		vector_of_accaunts.push_back(account_temp);
 		writeAccountInTheEnd(account_temp);
 	}
+}
+bool isLoginUnique(Account account_temp, vector <Account> vector_of_accaunts)
+{
+	for (int i = 0; i < vector_of_accaunts.size(); i++)
+	{
+		if (account_temp.login == vector_of_accaunts.at(i).login)
+		{
+			cout << "Account with the same login has already exist. Input another one." << endl;
+			return false;
+		}
+	}
+}
+bool isPasswordSuitable(Account& account_temp, string password1, string password2)
+{
+	int  capital = 0, number = 0;
+	if (password1 == password2)
+		account_temp.password = password2;
+	else
+	{
+		cout << "Passwords mismatch!!!" << endl;
+		return false;
+	}
+	if (account_temp.password.size() < 6) //проверяем что пароль содержит более 6 символов
+	{
+		cout << "Your password is too short! Please try again" << endl;
+		return false;
+	}
+	for (int i = 0; i < account_temp.password.size(); i++) // смотрим на наличее заглавных букв и цифр
+	{
+		if (account_temp.password.at(i) >= 'A' || account_temp.password.at(i) >= 'Z')
+			capital++;
+		if (account_temp.password.at(i) >= '0' || account_temp.password.at(i) >= '9')
+			number++;
+	}
+	if (capital == 0 || number == 0)
+	{
+		cout << "Please use at least one capital letter and one number" << endl;
+		return false;
+	}
+	else
+		return true;
 }
 void hashPassword(Account& account_temp)
 {
@@ -154,65 +203,38 @@ string getSymbolsForSalt()
 
 	return symbols;
 }
-void writeAccountInTheEnd(Account& account_temp)
-{
-	ofstream fout(FILE_ACCOUNTS, ios::app);
-	if (!fout.is_open())
-		cout << "File doesn't exist";
-	else
-	{
-		fout << "\n" << account_temp.login << "\t"
-			<< account_temp.salt << "\t"
-			<< account_temp.hash_password_with_salt << "\t"
-			<< account_temp.role << "\t"
-			<< account_temp.status;
-	}
-	fout.close();
-}
-void rewriteAccount(Account& account_temp)
-{
-	ofstream fout(FILE_ACCOUNTS, ios::out);
-	if (!fout.is_open())
-		cout << "File doesn't exist";
-	else
-	{
-		fout << account_temp.login << "\t"
-			<< account_temp.salt << "\t"
-			<< account_temp.hash_password_with_salt << "\t"
-			<< account_temp.role << "\t"
-			<< account_temp.status;
-	}
-	fout.close();
-}
-
 
 void logIn(vector <Account>& vector_of_accaunts)
 {
 	Account account_temp;
+	char back;
 	for (int i = 0; i < 3; i++)
 	{
-		system("cls");
-		cout << "Enter login: ";
+		cout << endl << "Enter login: ";
 		cin >> account_temp.login;
 		cout << "Enter password: ";
-		hideInput(account_temp);
-		if (compareInputData(account_temp, vector_of_accaunts) == true)
+		hideInput(account_temp); // скрытый ввод пароля со *
+		if (compareInputData(account_temp, vector_of_accaunts) == true) // проверка при авторизации на правильность лгина и пароля
 		{
-			cout << "Log in completed !!!" << endl;
-			system("pause");
-			system("cls");
+			cout << endl << "Log in completed !!!" << endl;
+			/*system("pause");
+			system("cls");*/
 			enterMenu(account_temp, vector_of_accaunts);
 			break;
 		}
 		else
 		{
-			cout << "Incorrect input. Please try again" << endl;
-			account_temp.password.clear();
 			if (i + 1 == 3)
 			{
 				cout << "The limit of attempts has been exceeded!!!" << endl;
 				return;
 			}
+			cout << endl << "Incorrect input. Please try again" << endl;
+			cout << endl << "If you want go back press 0" << endl;;
+			back = _getch();
+			account_temp.password.clear();
+			if (back == '0')
+				break;
 		}
 	}
 }
@@ -225,7 +247,7 @@ bool compareInputData(Account& account_temp, vector <Account>& vector_of_accaunt
 		{
 			account_temp.salt = vector_of_accaunts.at(i).salt;
 			account_temp.hash_password_with_salt = sha256(sha256(account_temp.password + account_temp.salt) + sha256(account_temp.password));
-			if (account_temp.hash_password_with_salt == vector_of_accaunts.at(i).password)
+			if (account_temp.hash_password_with_salt == vector_of_accaunts.at(i).hash_password_with_salt)
 			{
 				account_temp = vector_of_accaunts.at(i);
 				return true;
@@ -240,12 +262,14 @@ bool compareInputData(Account& account_temp, vector <Account>& vector_of_accaunt
 void enterMenu(Account account_temp, vector <Account>& vector_of_accaunts)
 {
 	vector <TypeOfWork> vector_of_works;
-	if (account_temp.status == 1 && (account_temp.role == 2 || account_temp.role == 3))
-		menuForAdmin(vector_of_accaunts, vector_of_works);
-	if (account_temp.status == 1 && account_temp.role == 1)
-		menuForUser(vector_of_accaunts, vector_of_works);
-	else
+	if(account_temp.status == 0)
 		cout << "Wait for the confirmation of registration" << endl;
+	if (account_temp.status == 2)
+		cout << "Your account is temporarily blocked" << endl;
+	if (account_temp.status == 1 && (account_temp.role == 2 || account_temp.role == 3))
+		menuForAdmin(vector_of_accaunts, vector_of_works, account_temp.login);
+	if (account_temp.status == 1 && account_temp.role == 1)
+		menuForUser(vector_of_accaunts, vector_of_works, account_temp.login);
 }
 void hideInput(Account& account_temp)
 {
