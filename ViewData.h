@@ -4,7 +4,9 @@
 #include <algorithm>
 #include <iomanip>
 #include "Structs.h"
+#include "Interfaces.h"
 #include "Sort.h"
+#include "Edit.h"
 
 using namespace std;
 

@@ -7,25 +7,32 @@ void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vec
 	int choice;
 	while (1)
 	{
+		clearConsole();
 		cout << "\tMode: Admin" << endl;
 		cout << "Choose:\n1 Work with data\n2 Work with accounts\n0 Exit" << endl;
-		cin >> choice;
+		choice = input();
 		switch (choice)
 		{
 		case 1: workWithData(vector_of_works);
 			break;
 		case 2: workWithAcccounts(vector_of_accaunts, login);
 			break;
-		case 0: return;
+		case 0:
+		{
+			clearConsole();
+			return;
+		}
 			break;
 		}
 	}
+	
 }
 void workWithAcccounts(vector <Account>& vector_of_accaunts, string login)
 {
 	int n = 1, choice;
 	while (n != 0)
 	{
+		clearConsole();
 		cout << "\t________MENU_______" << endl;
 		cout << "1 Show list of accounts\n2 Show outgoing registration applications\n3 Edit accounts\n4 Change password\n0 Exit" << endl;
 		cin >> choice;
@@ -43,15 +50,17 @@ void workWithAcccounts(vector <Account>& vector_of_accaunts, string login)
 			break;
 		}
 	}
+	clearConsole();
 }
 void workWithData(vector <TypeOfWork>& vector_of_works)
 {
 	int n = 1, choice;
 	while (n != 0)
 	{
+		clearConsole();
 		cout << "\t________MENU_______" << endl;
 		cout << "1 Show information about projects\n2 Add new project\n3 Edit project\n4 Search by projects\n5 Delete project\n0 Exit" << endl;
-		cin >> n;
+		n = input();
 		switch (n)
 		{
 		case 1:
@@ -59,6 +68,7 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 			break;
 		case 2:
 		{
+			clearConsole();
 			cout << "\t______CHOOSE______" << endl;
 			cout << "1 Add project \n2 Add project with delete" << endl;
 			cin >> choice;
@@ -67,13 +77,15 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 			else
 			{
 				cout << "Are you shure? It will destroy all data wich was in file.\n1 YES\n2 NO" << endl;
-				cin >> choice;
+				choice = input();
 				if (choice == 2)
 					break;
 				else
 				{
+					clearConsole();
 					generateProjectsVector(vector_of_works);
 				}
+				clearConsole();
 			}
 		}
 		break;
@@ -84,12 +96,13 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 			searchForProject(vector_of_works);
 			break;
 		case 5:
-			delProjectsFromVector(vector_of_works);
+			delProjectFromVector(vector_of_works);
 			break;
 		case 0: break;
 		default:
 			cout << "Invalid input. Please try again" << endl;
 		}
+		clearConsole();
 	}
 }
 
@@ -128,7 +141,7 @@ int getCountOfTypesOfWorkInFile(string file_path)
 	ifstream file(file_path, ios::in); // Открыли текстовый файл для чтения
 	int number_of_strings = 0, i = 1;
 	if (file.is_open())
-		while (file.ignore(numeric_limits<streamsize>::max(), '\n'))
+		while (file.ignore((numeric_limits<streamsize>::max)(), '\n'))
 			number_of_strings++;
 	file.close();
 	return number_of_strings;

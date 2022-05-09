@@ -3,7 +3,8 @@
 #include <fstream>
 #include <vector>
 #include "Structs.h"
-#include "Write.h"
+#include "Interfaces.h"
+#include "Validation.h"
 #include "Write.h"
 #include "Autorisation.h"
 

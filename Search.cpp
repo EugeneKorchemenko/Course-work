@@ -1,14 +1,14 @@
 #include "Search.h"
 
-
 void searchForProject(vector<TypeOfWork> vector_of_works)
 {
+	clearConsole();
 	cout << "\t\t________SEARCH________" << endl;
 	cout << "Enter the parameters by which the search will be performed:" << endl;
 	cout << "1)Project name\n2)Ammount of employees\n3)FIO of employee\n4)Cost of the project\n";
 	int choice;
 	vector<TypeOfWork> search;
-	cin >> choice;
+	choice = input();
 	switch (choice)
 	{
 	case 1: seerchProjectByName(vector_of_works, search);
@@ -25,8 +25,9 @@ void searchForProject(vector<TypeOfWork> vector_of_works)
 void seerchProjectByName(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search)
 {
 	string name;
+	clearConsole();
 	cout << "Enter name of the project: ";
-	cin >> name;
+	inputLine(name, 18);
 	cout << endl;
 	for (int i = 0, k = 0; i < vector_of_works.size(); i++)
 	{
@@ -38,23 +39,40 @@ void seerchProjectByName(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>&
 		}
 	}
 	if (!search.empty())
+	{
 		showProjectVector(search);
+		pause();
+		clearConsole();
+	}
 	else
+	{
 		cout << "There isn't any project with the same name" << endl;
+		pause();
+		clearConsole();
+	}
 }
 void searchProjectByAmmountOfEmployees(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search)
 {
 	int choice;
 	bool flag = false;
+	clearConsole();
 	cout << "Enter ammount of employees in the project: ";
-	cin >> choice;
+	choice = input();
 	cout << endl;
 	// считаем количество работников в проекте
 	countAmmountOfEmploeyeesInProject(vector_of_works, search, choice, flag);
+	clearConsole();
 	if (flag == false)
+	{
 		cout << "There isn't any project with the same ammount of employees" << endl;
+		pause();
+	}
 	else
+	{
 		showProjectVector(search);
+		pause();
+		clearConsole();
+	}
 }
 void countAmmountOfEmploeyeesInProject(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search, int choice, bool& flag)
 {
@@ -111,26 +129,37 @@ void findRepeatingEmployees(vector<TypeOfWork> search, int& ammount_of_employees
 void searchProjectsWhereEmployeeWork(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search)
 {
 	string name;
+	clearConsole();
 	cout << "Enter the employee you wnat to find: ";
-	cin >> name;
+	inputLine(name, 25);
 	cout << endl;
 	for (int i = 0; i < vector_of_works.size(); i++)
 	{
 		if (vector_of_works.at(i).FIO == name)
 			search.push_back(vector_of_works.at(i));
 	}
+	clearConsole();
 	if (!search.empty())
+	{
 		showPersonalInformationAboutEmployee(search);
+		pause();
+		clearConsole();
+	}
 	else
+	{
 		cout << "There isn't any project with this employee" << endl;
+		pause();
+		clearConsole();
+	}
 }
 void searchProjectsWithSuitableCost(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search)
 {
 	int min_cost, max_cost, cost = 0;
+	clearConsole();
 	cout << "Enter the lower limit of the range: ";
-	cin >> min_cost;
+	min_cost = input();
 	cout << "Enter the upper limit of the range: ";
-	cin >> max_cost;
+	max_cost = input();
 	for (int i = 0, j = 0; i < vector_of_works.size(); i++)
 	{
 		if (i == 0 || vector_of_works.at(i).project_name == vector_of_works.at(j).project_name)
@@ -155,21 +184,17 @@ void searchProjectsWithSuitableCost(vector<TypeOfWork> vector_of_works, vector<T
 			}
 		}
 	}
+	clearConsole();
 	if (!search.empty())
-		showProjectVector(search);
-	else
-		cout<< endl << "There isn't any project with the same cost" << endl;
-}
-void writeProjectInVector(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search, int j, int i)
-{
-	while (j != vector_of_works.size())
 	{
-		if (j == 0 || vector_of_works.at(j).project_name == vector_of_works.at(i).project_name)
-		{
-			search.push_back(vector_of_works.at(j));
-			j++;
-		}
-		else
-			break;
+		showProjectVector(search);
+		pause();
+		clearConsole();
+	}
+	else
+	{
+		cout << endl << "There isn't any project with the same cost" << endl;
+		pause();
+		clearConsole();
 	}
 }

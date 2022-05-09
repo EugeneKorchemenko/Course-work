@@ -2,6 +2,7 @@
 
 void showProjectVector(vector <TypeOfWork>& vector_of_works)
 {
+	clearConsole();
 	sortProjectByTypeOfWork(vector_of_works);
 	int cost = 0, employees = 0, ammount_of_projects = 0, *pointer_ammount_of_projects = &ammount_of_projects;
 	cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
@@ -195,6 +196,7 @@ void showListOfAccounts(vector <Account>& vector_of_accaunts)
 {
 	if (vector_of_accaunts.size() != 0)
 	{
+		clearConsole();
 		//header
 		cout << "-----------------------------------------" << endl;
 		cout << "| # |      LOGIN      | ROLE |  STATUS  |" << endl;
@@ -239,6 +241,7 @@ string getRole(int role)
 void showApplications(vector <Account>& vector_of_accaunts)
 {
 	vector <Account> vector_unverified_accounts;
+	clearConsole();
 	for (int i = 0; i < vector_of_accaunts.size(); i++)
 	{
 		if (vector_of_accaunts.at(i).status == 0)
@@ -260,11 +263,17 @@ void showApplications(vector <Account>& vector_of_accaunts)
 				break;
 			case 3: deleteApplication(vector_unverified_accounts, vector_of_accaunts);
 				break;
-			case 0: return;
+			case 0: return; 
 				break;
 			}
-			// отчистка коенсоли
+			clearConsole();
+			showListOfAccounts(vector_unverified_accounts);
 		}
 	}
-	cout << "There are no outgoing requests for application" << endl;
+	else
+	{
+		cout << "There are no outgoing requests for application" << endl;
+		pause();
+		clearConsole();
+	}
 }

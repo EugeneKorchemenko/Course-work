@@ -11,7 +11,7 @@ struct TypeOfWork
 struct Project
 {
 	string name;
-	int cost = 0, ammount_of_employees = 0;
+	int cost = 0, ammount_of_employees = 0, number_of_first_work = 0;
 };
 struct Account
 {

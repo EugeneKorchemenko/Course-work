@@ -141,12 +141,14 @@
   <ItemGroup>
     <ClCompile Include="Autorisation.cpp" />
     <ClCompile Include="Edit.cpp" />
+    <ClCompile Include="Interfaces.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuForAdmin.cpp" />
     <ClCompile Include="MenuForUser.cpp" />
     <ClCompile Include="Search.cpp" />
     <ClCompile Include="sha256.cpp" />
     <ClCompile Include="Sort.cpp" />
+    <ClCompile Include="Validation.cpp" />
     <ClCompile Include="ViewData.cpp" />
     <ClCompile Include="Write.cpp" />
   </ItemGroup>
@@ -154,12 +156,14 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Edit.h" />
     <ClInclude Include="Autorisation.h" />
+    <ClInclude Include="Interfaces.h" />
     <ClInclude Include="MenuForAdmin.h" />
     <ClInclude Include="MenuForUser.h" />
     <ClInclude Include="Search.h" />
     <ClInclude Include="sha256.h" />
     <ClInclude Include="Sort.h" />
     <ClInclude Include="Structs.h" />
+    <ClInclude Include="Validation.h" />
     <ClInclude Include="ViewData.h" />
     <ClInclude Include="Write.h" />
   </ItemGroup>

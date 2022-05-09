@@ -4,16 +4,16 @@ void generateProjectsVector(vector<TypeOfWork>& vector_of_works)
 {
 	int choice, size = 0;
 	cout << "Enter how many projects do you want to add" << endl;
-	cin >> choice;
+	choice = input();
 	string name;
 	vector_of_works.resize(0);
 	for (int i = 0; i < choice; i++)
 	{
 		cout << "Enter name of the project:" << endl;
-		cin >> name;
+		inputLine(name, 18);
 		cout << "Enter how many employees include into project" << endl;
 		int em;
-		cin >> em;
+		em = input();
 		vector_of_works.resize(vector_of_works.size() + em);
 		for (int m = size; m < vector_of_works.size(); m++)
 		{
@@ -28,18 +28,18 @@ void inputInformation(vector<TypeOfWork>& vector_of_works, int m)
 {
 	chooseWorkName(vector_of_works, m);
 	cout << "Enter FIO of employee" << endl;
-	cin >> vector_of_works.at(m).FIO;
+	inputLine(vector_of_works.at(m).FIO,25);
 	cout << "Enter ammount of hours" << endl;
-	cin >> vector_of_works.at(m).ammount_of_hours;
+	vector_of_works.at(m).ammount_of_hours = input();
 	cout << "Enter " << vector_of_works.at(m).FIO << "'s hourly cost" << endl;
-	cin >> vector_of_works.at(m).cost_per_hour;
+	vector_of_works.at(m).cost_per_hour = input();
 }
 void chooseWorkName(vector<TypeOfWork>& vector_of_works, int m)
 {
 	int n;
 	cout << "Choose type of work" << endl;
 	cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
-	cin >> n;
+	n = input();
 	switch (n)
 	{
 	case 1: vector_of_works.at(m).name = "Requirements";
@@ -73,17 +73,15 @@ void addProjectsInVector(vector<TypeOfWork>& vector_of_works)
 	TypeOfWork work_temp;
 	cout << "Enter how many projects you want to add" << endl;
 	int choice;
-	cin >> choice;
+	choice = input();
 	string name;
-	for (int i = 0; i < choice; i++)
+	for (int i = 0, employees = 0; i < choice; i++)
 	{
 		cout << "Enter name of the project:" << endl;
-		cin >> name;
+		inputLine(name, 18);
 		cout << "Enter how many employees include into project" << endl;
-		int emoloyees;
-		cin >> emoloyees;
-		//vector_of_works.resize(vector_of_works.size() + emoloyees);
-		for (int m = 0; m < emoloyees; m++)
+		employees = input();
+		for (int m = 0; m < employees; m++)
 		{
 			inputInformation(work_temp, name, vector_of_works);
 			vector_of_works.push_back(work_temp);
@@ -98,11 +96,11 @@ void inputInformation(TypeOfWork& work_temp, string name, vector<TypeOfWork> vec
 		work_temp.project_name = name;
 		chooseWorkName(work_temp);
 		cout << "Enter FIO of employee" << endl;
-		cin >> work_temp.FIO;
+		inputLine(work_temp.FIO, 25);
 		cout << "Enter ammount of hours" << endl;
-		cin >> work_temp.ammount_of_hours;
+		work_temp.ammount_of_hours = input();
 		cout << "Enter " << work_temp.FIO << "'s hourly cost" << endl;
-		cin >> work_temp.cost_per_hour;
+		work_temp.cost_per_hour = input();
 		if (chekIfEmployeeDoSameWorkOnProject(work_temp, vector_of_works))
 			break;
 		else
@@ -114,7 +112,7 @@ void chooseWorkName(TypeOfWork& work)
 	int n;
 	cout << "Choose type of work" << endl;
 	cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
-	cin >> n;
+	n = input();
 	switch (n)
 	{
 	case 1: work.name = "Requirements";
@@ -142,19 +140,19 @@ void writeEndFileProject(TypeOfWork work_temp, vector<TypeOfWork> vector_of_work
 	}
 	fout.close();
 }
-bool chekIfEmployeeDoSameWorkOnProject(TypeOfWork work_temp, vector<TypeOfWork> vector_of_works)
+
+void writeProjectInVector(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search, int j, int i)
 {
-	int j = 0;
-	while (j < vector_of_works.size())
+	while (j != vector_of_works.size())
 	{
-		if (work_temp.FIO == vector_of_works.at(j).FIO && work_temp.name == vector_of_works.at(j).name && work_temp.project_name == vector_of_works.at(j).project_name)
+		if (j == 0 || vector_of_works.at(j).project_name == vector_of_works.at(i).project_name)
 		{
-			cout << endl << "This employee has already involved in this type of work in this project. Try again" << endl << endl;
-			return false;
+			search.push_back(vector_of_works.at(j));
+			j++;
 		}
-		j++;
+		else
+			break;
 	}
-	return true;
 }
 
 void writeFileAccounts(vector<Account> vector_of_accaunts)

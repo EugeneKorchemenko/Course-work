@@ -8,7 +8,7 @@ void sortProjects(vector<TypeOfWork> vector_of_works)
 	cout << "\t\t________SORT________" << endl;
 	cout << "Choose how you want to sort projects:" << endl;
 	cout << "1 By project's cost\n2 By ammount of employees\n3 By name\n0 Exit view" << endl;
-	cin >> choice;
+	choice = input();
 	switch (choice)
 	{
 	case 1: sortProjectsByCost(sorted, vector_of_projects, vector_of_works);
@@ -23,14 +23,16 @@ void sortProjects(vector<TypeOfWork> vector_of_works)
 void sortProjectsByCost(vector<TypeOfWork>& sorted, vector <Project>& vector_of_projects, vector<TypeOfWork> vector_of_works)
 {
 	int choice;
+	clearConsole();
 	cout << "Choose how you wnat to sort projects\n1)By cost ascending\n2)By cost descending" << endl;
-	cin >> choice;
+	choice = input();
 	countCostOfProjects(vector_of_projects, vector_of_works);
 	if (choice == 1)
 		sort(vector_of_projects.begin(), vector_of_projects.end(), compareByCostAscending);
 	else
 		sort(vector_of_projects.begin(), vector_of_projects.end(), compareByCostDescending);
 	writeSortedVectorOfProjects(sorted, vector_of_projects, vector_of_works);
+	clearConsole();
 	showProjectVector(sorted);
 }
 void countCostOfProjects(vector <Project>& vector_of_projects, vector<TypeOfWork> vector_of_works)
@@ -74,14 +76,16 @@ void writeSortedVectorOfProjects(vector<TypeOfWork>& sorted, vector <Project> ve
 void sortProjectsByAmmountOfEmployees(vector<TypeOfWork>& sorted, vector <Project>& vector_of_projects, vector<TypeOfWork> vector_of_works)
 {
 	int choice;
+	clearConsole();
 	cout << "Choose how you wnat to sort projects\n1)By ascending of number of employees\n2)By descending of number of employees" << endl;
-	cin >> choice;
+	choice = input();
 	countAmmountOfEmployees(vector_of_projects, vector_of_works);
 	if (choice == 1)
 		sort(vector_of_projects.begin(), vector_of_projects.end(), compareByAscendingOfEmployees);
 	else
 		sort(vector_of_projects.begin(), vector_of_projects.end(), compareByCostDescendingOfEmployees);
 	writeSortedVectorOfProjects(sorted, vector_of_projects, vector_of_works);
+	clearConsole();
 	showProjectVector(sorted);
 }
 void countAmmountOfEmployees(vector <Project>& vector_of_projects, vector<TypeOfWork> vector_of_works)
@@ -112,14 +116,16 @@ bool compareByCostDescendingOfEmployees(const Project& first, const Project& sec
 void sortProjectsByName(vector<TypeOfWork>& sorted, vector <TypeOfWork> vector_of_works)
 {
 	int choice;
+	clearConsole();
 	cout << "Choose how you wnat to sort projects\n1)By A-Z\n2)By Z-A" << endl;
-	cin >> choice;
+	choice = input();
 	for (int i = 0; i < vector_of_works.size(); i++)
 		sorted.push_back(vector_of_works.at(i));
 	if (choice == 1)
 		sort(sorted.begin(), sorted.end(), compareByNameAscending);
 	else
 		sort(sorted.begin(), sorted.end(), compareByNameDescending);
+	clearConsole();
 	showProjectVector(sorted);
 }
 bool compareByNameAscending(const TypeOfWork& first, const TypeOfWork& second)
@@ -136,7 +142,7 @@ void sortAccounts(vector <Account> vector_of_accaunts)
 	cout << "\t\t________SORT________" << endl;
 	int choice;
 	cout << "Choose how you want to sort accounts:\n1 By login\n2 By Role\n3 By status\n0 Exit view" << endl;
-	cin >> choice;
+	choice = input();
 	switch (choice)
 	{
 	case 1: sortAccountByLogin(vector_of_accaunts);
@@ -152,14 +158,16 @@ void sortAccounts(vector <Account> vector_of_accaunts)
 void sortAccountByLogin(vector <Account> vector_of_accaunts)
 {
 	int choice;
+	clearConsole();
 	cout << "Choose how you wnat to sort logins\n1)By A-Z\n2)By Z-A" << endl;
-	cin >> choice;
+	choice = input();
 	if (choice == 1)
 		sort(vector_of_accaunts.begin(), vector_of_accaunts.end(), compareByLoginAscending);
 	else
 		sort(vector_of_accaunts.begin(), vector_of_accaunts.end(), compareByLoginDescending);
-	showListOfAccounts(vector_of_accaunts);
-	sortAccounts(vector_of_accaunts);
+	clearConsole();
+	//showListOfAccounts(vector_of_accaunts);
+	//sortAccounts(vector_of_accaunts);
 }
 bool compareByLoginAscending(const Account& first, const Account& second)
 {
@@ -172,6 +180,7 @@ bool compareByLoginDescending(const Account& first, const Account& second)
 void sortAccountByRole(vector <Account> vector_of_accaunts)
 {
 	sort(vector_of_accaunts.begin(), vector_of_accaunts.end(), compareByRole);
+	clearConsole(); 
 	showListOfAccounts(vector_of_accaunts);
 	sortAccounts(vector_of_accaunts);
 }
@@ -182,6 +191,7 @@ bool compareByRole(const Account& first, const Account& second)
 void sortAccountByStatus(vector <Account> vector_of_accaunts)
 {
 	sort(vector_of_accaunts.begin(), vector_of_accaunts.end(), compareByStatus);
+	clearConsole();
 	showListOfAccounts(vector_of_accaunts);
 	sortAccounts(vector_of_accaunts);
 }

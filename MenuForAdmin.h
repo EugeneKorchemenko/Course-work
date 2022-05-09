@@ -4,7 +4,6 @@
 #include "Structs.h"
 #include "Constants.h"
 #include "ViewData.h"
-#include "Delete.h"
 #include "Edit.h"
 #include "Write.h"
 #include "Search.h"

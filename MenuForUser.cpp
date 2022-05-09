@@ -4,25 +4,28 @@ void menuForUser(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vecto
 {
 	vector_of_works.resize(getCountOfTypesOfWorkInFile(FILE_DATA));
 	doesFileExist(vector_of_works);
-	int choice, n = 1;
+	int n = 1;
 	while (n != 0)
 	{
-		cout << "\t________MENU_______" << endl;
-		cout << "1 Show information about projects\n2 Search by projects\n3 Change password\n0 Exit" << endl;
+		clearConsole();
+		cout << "\tMode: User" << endl;
+		cout << "Choose:\n1 Show information about projects\n2 Search by projects\n3 Change password\n0 Exit" << endl;
 		cin >> n;
 		switch (n)
 		{
-		case 1:
-			showProjectVector(vector_of_works);
+		case 1: showProjectVector(vector_of_works);
 			break;
-		case 2:
-			searchForProject(vector_of_works);
+		case 2: searchForProject(vector_of_works);
 			break;
 		case 3: changePassword(vector_of_accaunts, login);
 			break;
 		case 0: break;
 		default:
+		{
 			cout << "Invalid input. Please try again" << endl;
+			pause();
+		}
 		}
 	}
+	clearConsole();
 }

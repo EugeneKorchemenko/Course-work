@@ -3,6 +3,8 @@
 #include <vector>
 #include <algorithm>
 #include "Structs.h"
+#include "Interfaces.h"
+#include "Validation.h"
 #include "ViewData.h"
 #include "Search.h"
 
