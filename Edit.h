@@ -11,8 +11,9 @@
 using namespace std;
 
 // изменение проекта
-void chooseKindOfEdition(vector<TypeOfWork>& vector_of_works);
-void editPoject(vector<TypeOfWork>& vector_of_works, int choice);
+void chooseEditingProject(vector<TypeOfWork>& vector_of_works);
+void showProjects(vector<TypeOfWork> vector_of_works, vector <Project>& vector_of_projects);
+void chooseKindOfEditing(vector<TypeOfWork>& vector_of_works, int choice);
 void editWholeProject(vector<TypeOfWork>& vector_of_works, int choice);
 void changeProjectName(vector<TypeOfWork>& vector_of_works, int choice);
 void editEmployeeInProject(vector<TypeOfWork>& vector_of_works, int choice);

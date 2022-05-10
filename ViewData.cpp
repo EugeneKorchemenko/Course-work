@@ -3,23 +3,25 @@
 void showProjectVector(vector <TypeOfWork>& vector_of_works)
 {
 	clearConsole();
+	if (printFileIsEmpty(vector_of_works))
+		return;
 	sortProjectByTypeOfWork(vector_of_works);
 	int cost = 0, employees = 0, ammount_of_projects = 0, *pointer_ammount_of_projects = &ammount_of_projects;
-	cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
+	cout << "--------------------------------------------------------------------------" << endl;
 	for (int i = 0, first = 0; i < vector_of_works.size(); i++, first++) // first - индекс первого типа работ в проекте
 	{
 		if (i == 0 || vector_of_works.at(i).project_name != vector_of_works.at(i - 1).project_name)
 		{
-			cout << endl << "Project: " << vector_of_works.at(i).project_name << endl << endl;
-			cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
-			cout << "| TYPE OF WORK | SURNAME OF THE EMPLOYEE | HOURS | COST/HOUR|\n";
+			cout << setw(74) << "|" << endl << "Project: " << vector_of_works.at(i).project_name << setw(65 - vector_of_works.at(i).project_name.size()) << "|" << endl << setw(74) << "|" << endl;
+			cout << "--------------------------------------------------------------------------" << endl;
+			cout << "| TYPE OF WORK | SURNAME OF THE EMPLOYEE | HOURS | COST/HOUR" << setw(16) << "| \n";
 			*pointer_ammount_of_projects += 1;
 		}
 		cost += vector_of_works.at(i).ammount_of_hours * vector_of_works.at(i).cost_per_hour;
 		cout << "|" << vector_of_works.at(i).name << setw(15 - vector_of_works.at(i).name.size())
 			<< "|" << vector_of_works.at(i).FIO << setw(26 - vector_of_works.at(i).FIO.size())
 			<< "|" << vector_of_works.at(i).ammount_of_hours << setw(8 - num(vector_of_works.at(i).ammount_of_hours))
-			<< "|" << vector_of_works.at(i).cost_per_hour << '\t' << "    |" << endl;
+			<< "|" << vector_of_works.at(i).cost_per_hour << '\t' << setw(18) << "|" << endl;
 		vector_of_works.at(i).cost_of_type_of_work = vector_of_works.at(i).ammount_of_hours * vector_of_works.at(i).cost_per_hour;
 
 		if (i + 1 == vector_of_works.size() || vector_of_works.at(i).project_name != vector_of_works.at(i + 1).project_name)
@@ -32,42 +34,42 @@ void showProjectVector(vector <TypeOfWork>& vector_of_works)
 }
 void showInfoAboutAllTypesOfWork(vector<TypeOfWork> vector_of_works, int& cost, int& employees, int& first, int i)
 {
-	cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
-	cout << " Cost of project: " << cost << endl;
-	cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
+	cout << "--------------------------------------------------------------------------" << endl;
+	cout << "| Cost of project: " << cost << setw(55 - num(cost)) << "|" << endl;
+	cout << "--------------------------------------------------------------------------" << endl;
 	calculateTypeOfWork(vector_of_works, cost, employees, first, i, "Requirements");
 	if (employees != 0)
 	{
-		cout << "Work on requirements \tCost: ";
+		cout << "|Work on requirements \tCost: ";
 		cout << cost << "\t";
 		cout << "Number of employees involved: ";
-		cout << employees << endl;
+		cout << setw(4 - num(employees)) << employees << "|" << endl;
 	}
 	calculateTypeOfWork(vector_of_works, cost, employees, first, i, "Development");
 	if (employees != 0)
 	{
-		cout << "Development\t\tCost: ";
+		cout << "|Development\t\tCost: ";
 		cout << cost << "\t";
 		cout << "Number of employees involved: ";
-		cout << employees << endl;
+		cout << setw(4 - num(employees)) << employees << "|" << endl;
 	}
 	calculateTypeOfWork(vector_of_works, cost, employees, first, i, "Implementation");
 	if (employees != 0)
 	{
-		cout << "Implementation\t\tCost: ";
+		cout << "|Implementation\t\tCost: ";
 		cout << cost << "\t";
 		cout << "Number of employees involved: ";
-		cout << employees << endl;
+		cout << setw(4 - num(employees)) << employees << "|" << endl;
 	}
 	calculateTypeOfWork(vector_of_works, cost, employees, first, i, "Testing");
 	if (employees != 0)
 	{
-		cout << "Testing\t\t\tCost: ";
+		cout << "|Testing\t\tCost: ";
 		cout << cost << "\t";
 		cout << "Number of employees involved: ";
-		cout << employees << endl;
+		cout << setw(4 - num(employees)) << employees << "|" << endl;
 	}
-	cout << "------------------------------------------------------------------------------------------------------------------------" << endl;
+	cout << "--------------------------------------------------------------------------" << endl;
 	cost = 0;
 	employees = 0;
 }

@@ -3,13 +3,14 @@
 void generateProjectsVector(vector<TypeOfWork>& vector_of_works)
 {
 	int choice, size = 0;
+	clearConsole();
 	cout << "Enter how many projects do you want to add" << endl;
 	choice = input();
 	string name;
 	vector_of_works.resize(0);
 	for (int i = 0; i < choice; i++)
 	{
-		cout << "Enter name of the project:" << endl;
+		cout << "Enter name of the project (max size is 18):" << endl;
 		inputLine(name, 18);
 		cout << "Enter how many employees include into project" << endl;
 		int em;
@@ -27,7 +28,7 @@ void generateProjectsVector(vector<TypeOfWork>& vector_of_works)
 void inputInformation(vector<TypeOfWork>& vector_of_works, int m)
 {
 	chooseWorkName(vector_of_works, m);
-	cout << "Enter FIO of employee" << endl;
+	cout << "Enter FIO of employee (max size is 25)" << endl;
 	inputLine(vector_of_works.at(m).FIO,25);
 	cout << "Enter ammount of hours" << endl;
 	vector_of_works.at(m).ammount_of_hours = input();
@@ -71,13 +72,16 @@ void writeFileProjects(vector<TypeOfWork> vector_of_works)
 void addProjectsInVector(vector<TypeOfWork>& vector_of_works)
 {
 	TypeOfWork work_temp;
+	clearConsole();
+	if (printFileIsEmpty(vector_of_works))
+		return;
 	cout << "Enter how many projects you want to add" << endl;
 	int choice;
 	choice = input();
 	string name;
 	for (int i = 0, employees = 0; i < choice; i++)
 	{
-		cout << "Enter name of the project:" << endl;
+		cout << "Enter name of the project: (max size is 18)" << endl;
 		inputLine(name, 18);
 		cout << "Enter how many employees include into project" << endl;
 		employees = input();
@@ -95,7 +99,7 @@ void inputInformation(TypeOfWork& work_temp, string name, vector<TypeOfWork> vec
 	{
 		work_temp.project_name = name;
 		chooseWorkName(work_temp);
-		cout << "Enter FIO of employee" << endl;
+		cout << "Enter FIO of employee (max size is 25)" << endl;
 		inputLine(work_temp.FIO, 25);
 		cout << "Enter ammount of hours" << endl;
 		work_temp.ammount_of_hours = input();

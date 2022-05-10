@@ -1,5 +1,7 @@
 #include "Interfaces.h"
 
+// Функции clearConsole и сls были позаимствованы с сайта Microsoft documentation режим доступа: https://docs.microsoft.com/ru-ru/windows/console/clearing-the-screen
+
 void clearConsole()
 {
     HANDLE hStdout;

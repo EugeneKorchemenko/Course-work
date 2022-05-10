@@ -3,7 +3,7 @@
 void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login)
 {
 	vector_of_works.resize(getCountOfTypesOfWorkInFile(FILE_DATA));
-	doesFileExist(vector_of_works);
+	doesFileExist(vector_of_works, 1);
 	int choice;
 	while (1)
 	{
@@ -63,18 +63,19 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 		n = input();
 		switch (n)
 		{
-		case 1:
-			showProjectVector(vector_of_works);
+		case 1: showProjectVector(vector_of_works);
 			break;
 		case 2:
 		{
 			clearConsole();
 			cout << "\t______CHOOSE______" << endl;
-			cout << "1 Add project \n2 Add project with delete" << endl;
+			cout << "1 Add project\n2 Add project with delete\n0 Exit" << endl;
 			cin >> choice;
-			if (choice == 1)
-				addProjectsInVector(vector_of_works);
-			else
+			switch (choice)
+			{
+			case 1: addProjectsInVector(vector_of_works);
+				break;
+			case 2: 
 			{
 				cout << "Are you shure? It will destroy all data wich was in file.\n1 YES\n2 NO" << endl;
 				choice = input();
@@ -87,16 +88,17 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 				}
 				clearConsole();
 			}
+			break;
+			case 0: 
+				break;
+			}
 		}
 		break;
-		case 3:
-			chooseKindOfEdition(vector_of_works);
+		case 3: chooseEditingProject(vector_of_works);
 			break;
-		case 4:
-			searchForProject(vector_of_works);
+		case 4: searchForProject(vector_of_works);
 			break;
-		case 5:
-			delProjectFromVector(vector_of_works);
+		case 5: delProjectFromVector(vector_of_works);
 			break;
 		case 0: break;
 		default:
@@ -106,17 +108,27 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 	}
 }
 
-void doesFileExist(vector <TypeOfWork>& vector_of_works)
+void doesFileExist(vector <TypeOfWork>& vector_of_works, int access)
 {
 	ifstream fin(FILE_DATA, ios::binary | ios::in);
 	if (!fin.is_open())
 	{
-		cout << "File doesn't exist!" << endl << "Do you want to create new one?" << endl;
-		cout << "1)YES\n2)NO" << endl;
-		int choice;
-		cin >> choice;
-		if (choice == 1)
-			generateProjectsVector(vector_of_works);
+		clearConsole();
+		cout << "File with data doesn't exist!" << endl;
+		pause();
+		if (access == 1) // если админ считывает файл, а он пустой то предлагаем создать новый
+		{
+			cout << "Do you want to create new one?" << endl;
+			cout << "1)YES\n2)NO" << endl;
+			int choice;
+			cin >> choice;
+			if (choice == 1)
+				generateProjectsVector(vector_of_works);
+			else
+				return;
+		}
+		else 
+			return;
 	}
 	else
 	{

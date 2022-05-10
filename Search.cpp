@@ -3,11 +3,14 @@
 void searchForProject(vector<TypeOfWork> vector_of_works)
 {
 	clearConsole();
-	cout << "\t\t________SEARCH________" << endl;
-	cout << "Enter the parameters by which the search will be performed:" << endl;
-	cout << "1)Project name\n2)Ammount of employees\n3)FIO of employee\n4)Cost of the project\n";
 	int choice;
 	vector<TypeOfWork> search;
+	if (printFileIsEmpty(vector_of_works))
+		return;
+	cout << "\t\t________SEARCH________" << endl;
+	cout << "Enter the parameters by which the search will be performed:" << endl;
+	cout << "1 Project name\n2 Ammount of employees\n3 FIO of employee\n4 Cost of the project\n0 Exit" << endl;
+	cout << "Choice: ";
 	choice = input();
 	switch (choice)
 	{
@@ -18,6 +21,8 @@ void searchForProject(vector<TypeOfWork> vector_of_works)
 	case 3: searchProjectsWhereEmployeeWork(vector_of_works, search);
 		break;
 	case 4: searchProjectsWithSuitableCost(vector_of_works, search);
+		break;
+	case 0:
 		break;
 	}
 	search.clear();
@@ -46,6 +51,7 @@ void seerchProjectByName(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>&
 	}
 	else
 	{
+		clearConsole();
 		cout << "There isn't any project with the same name" << endl;
 		pause();
 		clearConsole();
@@ -69,6 +75,7 @@ void searchProjectByAmmountOfEmployees(vector<TypeOfWork> vector_of_works, vecto
 	}
 	else
 	{
+		clearConsole();
 		showProjectVector(search);
 		pause();
 		clearConsole();

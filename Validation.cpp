@@ -11,7 +11,7 @@ int input()
 		else
 		{
 			cin.clear(); // сбрасывает флаги ошибок.Если возникает ошибка, устанавливается флаг ошибки, и будущие попытки получить ввод не удастся
-			cin.ignore(numeric_limits<streamsize>::max(), '\n'); // игнорирует (очищает) ввод '\n' устанавливает разделитель, то есть символ, после которого cin перестает игнорировать numeric_limits<streamsize>::max() устанавливает максимальное количество символов для игнорирования 
+			cin.ignore((numeric_limits<streamsize>::max)(), '\n'); // игнорирует (очищает) ввод '\n' устанавливает разделитель, то есть символ, после которого cin перестает игнорировать numeric_limits<streamsize>::max() устанавливает максимальное количество символов для игнорирования 
 			cout << "\nIncorrect input\n\n";
 		}
 	}
@@ -105,35 +105,33 @@ bool chekIfEmployeeDoSameWorkOnProject(TypeOfWork work_temp, vector<TypeOfWork> 
 }
 void inputLine(string& string, int size) // login fio 
 {
-	int i = 1, approve;
+	int i = 0, approve;
 	char temp;
 	string.clear();
 	while (true)
 	{
-		if (i == size)
+		while (i == size) // если достигли максимального значения при вводе можно только backspace и enter
 		{
-			cout << endl << "You have exceeded the maximum string size(" << size << ")" << endl;
-			cout << "Do you want to use these inputs?" << endl;
-			cout << "\nChoose:\t1 YES\t2 NO" << endl;
-			cin >> approve;
-			if (approve == 1)
-				return;
-			else
-			{
-				string.clear();
-				i = 1;
-				cout << "Input: ";
-				continue;
-			}
-		}
-		else
 			temp = _getch();
-		if (temp != '\r')
-		{
-			if (temp == '\b' && !string.empty())
+			if (temp == '\b')
 			{
 				string.pop_back();
 				printf_s("\b \b");
+				i--;
+			}
+			if (temp == '\r')
+				return;
+		}
+		temp = _getch();
+		if (temp != '\r')
+		{
+			if (temp == '\b')
+			{
+				if (i == 0)
+					continue;
+				string.pop_back();
+				printf_s("\b \b");
+				i--;
 				continue;
 			}
 			if (temp >= 'A' && temp <= 'z' && temp >= '0' && temp <= '9')
@@ -147,5 +145,16 @@ void inputLine(string& string, int size) // login fio
 		}
 		cout << endl;
 		return;
+	}
+}
+
+bool printFileIsEmpty(vector<TypeOfWork> vector_of_works)
+{
+	if (vector_of_works.empty())
+	{
+		cout << "File with data is empty !!!" << endl;
+		pause();
+		clearConsole();
+		return true;
 	}
 }

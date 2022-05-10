@@ -1,11 +1,23 @@
 #include "Edit.h"
 
-void chooseKindOfEdition(vector<TypeOfWork>& vector_of_works)
+void chooseEditingProject(vector<TypeOfWork>& vector_of_works)
 {
 	clearConsole();
 	vector <Project> vector_of_projects;
 	int choice;
-	cout << "Choose Project which you want to edit:" << endl;
+	if (printFileIsEmpty(vector_of_works))
+		return;	cout << "Choose Project which you want to edit: " << endl;
+	showProjects(vector_of_works, vector_of_projects);
+	cout << endl << "Press 0 to turn back" << endl;
+	cout << "Choice: ";
+	choice = input() - 1;
+	if (choice == -1)
+		return;
+	choice = vector_of_projects.at(choice).number_of_first_work;
+	chooseKindOfEditing(vector_of_works, choice);
+}
+void showProjects(vector<TypeOfWork> vector_of_works, vector <Project>& vector_of_projects)
+{
 	for (int i = 0, j = 0; i < vector_of_works.size(); i++)
 	{
 		if (i == 0 || vector_of_works.at(i - 1).project_name != vector_of_works.at(i).project_name)
@@ -13,19 +25,19 @@ void chooseKindOfEdition(vector<TypeOfWork>& vector_of_works)
 			vector_of_projects.resize(vector_of_projects.size() + 1);
 			vector_of_projects.at(j).name = vector_of_works.at(i).project_name;
 			vector_of_projects.at(j).number_of_first_work = i;
-			cout << j + 1 << ")" << vector_of_projects.at(j).name << endl;
+			cout << j + 1 << " - " << vector_of_projects.at(j).name << endl;
 			j++;
 		}
 	}
-	choice = input();
-	choice = vector_of_projects.at(choice - 1).number_of_first_work;
-	cout << "\t\t_______EDITING_______" << endl;
-	cout << "1 Edit all information about project\n2 Edit name of project\n3 Edit employee\n4 Add employees in prject\n5 Delete employee from project\n0 Back" << endl;
-	editPoject(vector_of_works, choice);
 }
-void editPoject(vector<TypeOfWork>& vector_of_works, int choice)
+void chooseKindOfEditing(vector<TypeOfWork>& vector_of_works, int choice)
 {
+	clearConsole();
+	cout << "\t\t_______EDITING_______" << endl;
+	cout << "Project: " << vector_of_works.at(choice).project_name << endl << endl;
+	cout << "1 Edit all information about project\n2 Edit name of project\n3 Edit employee\n4 Add employees in prject\n5 Delete employee from project\n0 Back" << endl;
 	int ed;
+	cout << "Choice: ";
 	ed = input();
 	switch (ed)
 	{
@@ -52,6 +64,7 @@ void editWholeProject(vector<TypeOfWork>& vector_of_works, int choice)
 	string name;
 	TypeOfWork work_temp;
 	int size, em, approve;
+	clearConsole();
 	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
 	approve = input();
 	if (approve == 1)
@@ -73,7 +86,7 @@ void editWholeProject(vector<TypeOfWork>& vector_of_works, int choice)
 		size = vector_of_works.size();
 		for (int m = (vector_of_works.size() - em); m < size; m++)
 		{
-			inputInformation(work_temp, name, vector_of_works);// перегруженная функция реализация находится в AddProject.h
+			inputInformation(work_temp, name, vector_of_works);// перегруженная функция реализация находится в Write.h
 			vector_of_works.push_back(work_temp);
 			writeEndFileProject(work_temp, vector_of_works);
 		}
@@ -83,27 +96,37 @@ void editWholeProject(vector<TypeOfWork>& vector_of_works, int choice)
 void changeProjectName(vector<TypeOfWork>& vector_of_works, int choice)
 {
 	string new_name, name;
+	int approve;
 	clearConsole();
 	name = vector_of_works.at(choice).project_name;
 	cout << "Enter new name of project" << endl;
 	inputLine(new_name, 18);
-	for (int i = 0; i < vector_of_works.size(); i++)
-		if (vector_of_works.at(i).project_name == name)
-			vector_of_works.at(i).project_name = new_name;
-	writeFileProjects(vector_of_works);
+	cout << "Accept changes?\nChoose:\t1 YES\t2 NO" << endl;
+	approve = input();	
+	if (approve == 1)
+	{
+		for (int i = 0; i < vector_of_works.size(); i++)
+			if (vector_of_works.at(i).project_name == name)
+				vector_of_works.at(i).project_name = new_name;
+		writeFileProjects(vector_of_works);
+	}
 	clearConsole();
 }
 void editEmployeeInProject(vector<TypeOfWork>& vector_of_works, int choice)
 {
 	int i = 0;
 	clearConsole();
-	cout << "Choose:" << endl;
+	cout << "----------------------------------" << endl;
+	cout << "|  ID  | SURNAME OF THE EMPLOYEE |" << endl;
+	cout << "----------------------------------" << endl;
 	while (i != vector_of_works.size())
 	{
 		if (vector_of_works.at(i).project_name == vector_of_works.at(choice).project_name)
-			cout << i << ")" << vector_of_works.at(i).FIO << endl;
+			cout << "|" << i + 1 << setw(7 - num(i+1)) << "|" << vector_of_works.at(i).FIO << setw(26 - vector_of_works.at(i).FIO.size()) << "|" << endl;
 		i++;
 	}
+	cout << "----------------------------------" << endl;
+	cout << "Input ID of the employee: ";
 	choice = input();
 	inputInformation(vector_of_works, choice);
 	writeFileProjects(vector_of_works);
@@ -148,22 +171,25 @@ void deleteEmployee(vector<TypeOfWork>& vector_of_works, int choice)
 	}
 	clearConsole();
 }
+
 void delProjectFromVector(vector<TypeOfWork>& vector_of_works)
 {
 	int choice, descission;
+	vector <Project> vector_of_projects;
+	clearConsole();
+	if (printFileIsEmpty(vector_of_works))
+		return;
 	cout << "_______DELITING_______" << endl;
 	cout << "Choose Project which tou want to delete:" << endl;
-	for (int i = 0; i < vector_of_works.size(); i++)
-	{
-		if (i == 0 || vector_of_works.at(i - 1).project_name != vector_of_works.at(i).project_name)
-			cout << i + 1 << ")" << vector_of_works.at(i).project_name << endl;// исправитьь номер проекта
-	}
+	showProjects(vector_of_works, vector_of_projects);
+	cout << endl << "Press 0 to turn back" << endl;
+	cout << "Choice: ";
+	choice = input() - 1;
 	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
 	descission = input();
 	if (descission == 1)
 	{
-		choice = input();
-		string name = vector_of_works.at(choice - 1).project_name;
+		string name = vector_of_works.at(choice).project_name;
 		for (int i = 0; i < vector_of_works.size(); i++)
 		{
 			if (vector_of_works.at(i).project_name == name)
@@ -176,6 +202,7 @@ void delProjectFromVector(vector<TypeOfWork>& vector_of_works)
 	writeFileProjects(vector_of_works);
 	clearConsole();
 }
+
 
 void editAccounts(vector <Account>& vector_of_accaunts, string login)
 {

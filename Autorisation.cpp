@@ -23,7 +23,7 @@ void readAccountsBase(vector <Account>& vector_of_accaunts)
 	ifstream fin(FILE_ACCOUNTS, ios::binary | ios::in);
 	if (!fin.is_open())
 	{
-		cout << "File doesn't exist!\nYou became main admin\n!!! CONGRATULATIONS !!!" << endl;
+		cout << "File doesn't exist!\nYou became head admin\n!!! CONGRATULATIONS !!!" << endl;
 		singUp(vector_of_accaunts);
 	}
 	else
@@ -43,7 +43,7 @@ void readAccountsBase(vector <Account>& vector_of_accaunts)
 		}
 		if (vector_of_accaunts[i].login.empty()) //файл создан, но пуст
 		{
-			cout << "You became admin\n!!!CONGRATULATIONS !!!" << endl;
+			cout << "You became head admin\n!!! CONGRATULATIONS !!!" << endl;
 			singUp(vector_of_accaunts);
 		}
 	}
@@ -110,7 +110,7 @@ void createLoginAndPassword(Account& account_temp, vector <Account>& vector_of_a
 	string password1, password2;
 	while (flag == false)
 	{
-		cout << "Enter login: ";
+		cout << "Enter login (max size is 17): ";
 		inputLine(account_temp.login, 17);
 		flag = isLoginUnique(account_temp, vector_of_accaunts);   // проверяем логин на уникальность
 		cout << "Enter password: ";
@@ -183,7 +183,9 @@ void logIn(vector <Account>& vector_of_accaunts)
 		hideInput(account_temp); // скрытый ввод пароля со *
 		if (compareInputData(account_temp, vector_of_accaunts) == true) // проверка при авторизации на правильность лгина и пароля 
 		{
-			/*cout << endl << "Log in completed !!!" << endl;*/
+			clearConsole();
+			cout << endl << "Log in completed !!!" << endl;
+			pause();
 			enterMenu(account_temp, vector_of_accaunts);
 			break;
 		}
