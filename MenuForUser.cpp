@@ -2,8 +2,6 @@
 
 void menuForUser(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works, string login)
 {
-	vector_of_works.resize(getCountOfTypesOfWorkInFile(FILE_DATA));
-	doesFileExist(vector_of_works, 0);
 	int n = 1;
 	while (n != 0)
 	{
@@ -21,12 +19,8 @@ void menuForUser(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vecto
 		case 3: changePassword(vector_of_accaunts, login);
 			break;
 		case 0: break;
-		default:
-		{
-			cout << "Invalid input. Please try again" << endl;
-			pause();
-		}
+		default:printOutofRangeInMenu(3);
 		}
 	}
-	clearConsole();
+	//clearConsole();
 }

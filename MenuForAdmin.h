@@ -15,8 +15,4 @@ void menuForAdmin(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vect
 
 void workWithData(vector <TypeOfWork>& vector_of_works);
 
-void workWithAcccounts(vector <Account>& vector_of_accaunts, string login);
-// проверка на существование файла
-void doesFileExist(vector <TypeOfWork>& vector_of_works, int access);
-// считывем из файла количество типов работ
-int getCountOfTypesOfWorkInFile(string file_path);
+void workWithAcccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login);

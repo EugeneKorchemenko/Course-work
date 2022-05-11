@@ -37,20 +37,24 @@ void inputInformation(vector<TypeOfWork>& vector_of_works, int m)
 }
 void chooseWorkName(vector<TypeOfWork>& vector_of_works, int m)
 {
-	int n;
-	cout << "Choose type of work" << endl;
-	cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
-	n = input();
-	switch (n)
+	int n = 10;
+	while (n != 0)
 	{
-	case 1: vector_of_works.at(m).name = "Requirements";
-		break;
-	case 2: vector_of_works.at(m).name = "Development";
-		break;
-	case 3: vector_of_works.at(m).name = "Implementation";
-		break;
-	case 4: vector_of_works.at(m).name = "Testing";
-		break;
+		cout << "Choose type of work" << endl;
+		cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
+		n = input();
+		switch (n)
+		{
+		case 1: vector_of_works.at(m).name = "Requirements";
+			break;
+		case 2: vector_of_works.at(m).name = "Development";
+			break;
+		case 3: vector_of_works.at(m).name = "Implementation";
+			break;
+		case 4: vector_of_works.at(m).name = "Testing";
+			break;
+		default:printOutofRangeInMenu(4);
+		}
 	}
 }
 void writeFileProjects(vector<TypeOfWork> vector_of_works)
@@ -113,20 +117,24 @@ void inputInformation(TypeOfWork& work_temp, string name, vector<TypeOfWork> vec
 }
 void chooseWorkName(TypeOfWork& work)
 {
-	int n;
-	cout << "Choose type of work" << endl;
-	cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
-	n = input();
-	switch (n)
+	int n = 10;
+	while (n != 0)
 	{
-	case 1: work.name = "Requirements";
-		break;
-	case 2: work.name = "Development";
-		break;
-	case 3: work.name = "Implementation";
-		break;
-	case 4: work.name = "Testing";
-		break;
+		cout << "Choose type of work" << endl;
+		cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
+		n = input();
+		switch (n)
+		{
+		case 1: work.name = "Requirements";
+			break;
+		case 2: work.name = "Development";
+			break;
+		case 3: work.name = "Implementation";
+			break;
+		case 4: work.name = "Testing";
+			break;
+		default:printOutofRangeInMenu(4);
+		}
 	}
 }
 void writeEndFileProject(TypeOfWork work_temp, vector<TypeOfWork> vector_of_works)

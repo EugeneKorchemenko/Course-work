@@ -148,7 +148,7 @@ void inputLine(string& string, int size) // login fio
 	}
 }
 
-bool printFileIsEmpty(vector<TypeOfWork> vector_of_works)
+bool printFileIsEmpty(vector<TypeOfWork>& vector_of_works)
 {
 	if (vector_of_works.empty())
 	{
@@ -157,4 +157,11 @@ bool printFileIsEmpty(vector<TypeOfWork> vector_of_works)
 		clearConsole();
 		return true;
 	}
+}
+void printOutofRangeInMenu(int NUMBER_OF_POINTS)
+{
+	clearConsole();
+	cout << "Enter value between 0 and "<< NUMBER_OF_POINTS << endl;
+	pause();
+	clearConsole();
 }

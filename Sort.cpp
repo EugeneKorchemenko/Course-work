@@ -4,20 +4,25 @@ void sortProjects(vector<TypeOfWork> vector_of_works)
 {
 	vector <Project> vector_of_projects;
 	vector <TypeOfWork> sorted;
-	int choice = 0;
-	cout << "\t\t________SORT________" << endl;
-	cout << "Choose how you want to sort projects:" << endl;
-	cout << "1 By project's cost\n2 By ammount of employees\n3 By name\n0 Exit view" << endl;
-	choice = input();
-	switch (choice)
+	int choice = 10;
+	while (choice != 0)
 	{
-	case 1: sortProjectsByCost(sorted, vector_of_projects, vector_of_works);
-		break;
-	case 2: sortProjectsByAmmountOfEmployees(sorted, vector_of_projects, vector_of_works);
-		break;
-	case 3: sortProjectsByName(sorted, vector_of_works);
-		break;
-	case 0: break;
+		cout << "\t\t________SORT________" << endl;
+		cout << "Choose how you want to sort projects:" << endl;
+		cout << "1 By project's cost\n2 By ammount of employees\n3 By name\n0 Exit view" << endl;
+		choice = input();
+		switch (choice)
+		{
+		case 1: sortProjectsByCost(sorted, vector_of_projects, vector_of_works);
+			break;
+		case 2: sortProjectsByAmmountOfEmployees(sorted, vector_of_projects, vector_of_works);
+			break;
+		case 3: sortProjectsByName(sorted, vector_of_works);
+			break;
+		case 0:
+			break;
+		default:printOutofRangeInMenu(4);
+		}
 	}
 }
 void sortProjectsByCost(vector<TypeOfWork>& sorted, vector <Project>& vector_of_projects, vector<TypeOfWork> vector_of_works)
@@ -139,20 +144,24 @@ bool compareByNameDescending(const TypeOfWork& first, const TypeOfWork& second)
 
 void sortAccounts(vector <Account> vector_of_accaunts)
 {
-	cout << "\t\t________SORT________" << endl;
-	int choice;
-	cout << "Choose how you want to sort accounts:\n1 By login\n2 By Role\n3 By status\n0 Exit view" << endl;
-	choice = input();
-	switch (choice)
+	int choice = 10;
+	while (choice != 0)
 	{
-	case 1: sortAccountByLogin(vector_of_accaunts);
-		break;
-	case 2: sortAccountByRole(vector_of_accaunts);
-		break;
-	case 3: sortAccountByStatus(vector_of_accaunts);
-		break;
-	case 0: return;
-		break;
+		cout << "\t\t________SORT________" << endl;
+		cout << "Choose how you want to sort accounts:\n1 By login\n2 By Role\n3 By status\n0 Exit view" << endl;
+		choice = input();
+		switch (choice)
+		{
+		case 1: sortAccountByLogin(vector_of_accaunts);
+			break;
+		case 2: sortAccountByRole(vector_of_accaunts);
+			break;
+		case 3: sortAccountByStatus(vector_of_accaunts);
+			break;
+		case 0:
+			break;
+		default:printOutofRangeInMenu(4);
+		}
 	}
 }
 void sortAccountByLogin(vector <Account> vector_of_accaunts)

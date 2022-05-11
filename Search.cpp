@@ -3,29 +3,33 @@
 void searchForProject(vector<TypeOfWork> vector_of_works)
 {
 	clearConsole();
-	int choice;
+	int choice = 10;
 	vector<TypeOfWork> search;
 	if (printFileIsEmpty(vector_of_works))
 		return;
-	cout << "\t\t________SEARCH________" << endl;
-	cout << "Enter the parameters by which the search will be performed:" << endl;
-	cout << "1 Project name\n2 Ammount of employees\n3 FIO of employee\n4 Cost of the project\n0 Exit" << endl;
-	cout << "Choice: ";
-	choice = input();
-	switch (choice)
+	while (choice != 0)
 	{
-	case 1: seerchProjectByName(vector_of_works, search);
-		break;
-	case 2: searchProjectByAmmountOfEmployees(vector_of_works, search);
-		break;
-	case 3: searchProjectsWhereEmployeeWork(vector_of_works, search);
-		break;
-	case 4: searchProjectsWithSuitableCost(vector_of_works, search);
-		break;
-	case 0:
-		break;
+		cout << "\t\t________SEARCH________" << endl;
+		cout << "Enter the parameters by which the search will be performed:" << endl;
+		cout << "1 Project name\n2 Ammount of employees\n3 FIO of employee\n4 Cost of the project\n0 Exit" << endl;
+		cout << "Choice: ";
+		choice = input();
+		switch (choice)
+		{
+		case 1: seerchProjectByName(vector_of_works, search);
+			break;
+		case 2: searchProjectByAmmountOfEmployees(vector_of_works, search);
+			break;
+		case 3: searchProjectsWhereEmployeeWork(vector_of_works, search);
+			break;
+		case 4: searchProjectsWithSuitableCost(vector_of_works, search);
+			break;
+		case 0:
+			break;
+		default:printOutofRangeInMenu(4);
+		}
+		search.clear();
 	}
-	search.clear();
 }
 void seerchProjectByName(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search)
 {

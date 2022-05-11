@@ -2,10 +2,10 @@
 
 void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login)
 {
-	vector_of_works.resize(getCountOfTypesOfWorkInFile(FILE_DATA));
-	doesFileExist(vector_of_works, 1);
-	int choice;
-	while (1)
+	/*vector_of_works.resize(getCountOfTypesOfWorkInFile(FILE_DATA));
+	doesFileExist(vector_of_works, 1);*/
+	int choice = 10;
+	while (choice != 0)
 	{
 		clearConsole();
 		cout << "\tMode: Admin" << endl;
@@ -15,19 +15,19 @@ void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vec
 		{
 		case 1: workWithData(vector_of_works);
 			break;
-		case 2: workWithAcccounts(vector_of_accaunts, login);
+		case 2: workWithAcccounts(vector_of_accaunts, vector_of_works, login);
 			break;
-		case 0:
+		case 0:/*
 		{
 			clearConsole();
 			return;
-		}
+		}*/
 			break;
+		default:printOutofRangeInMenu(2);
 		}
 	}
-	
 }
-void workWithAcccounts(vector <Account>& vector_of_accaunts, string login)
+void workWithAcccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login)
 {
 	int n = 1, choice;
 	while (n != 0)
@@ -42,12 +42,13 @@ void workWithAcccounts(vector <Account>& vector_of_accaunts, string login)
 			break;
 		case 2: showApplications(vector_of_accaunts);
 			break;
-		case 3: editAccounts(vector_of_accaunts, login);
+		case 3: editAccounts(vector_of_accaunts,vector_of_works, login);
 			break;
 		case 4: changePassword(vector_of_accaunts, login);
 			break;
-		case 0: return;
+		case 0:
 			break;
+		default:printOutofRangeInMenu(4);
 		}
 	}
 	clearConsole();
@@ -75,7 +76,7 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 			{
 			case 1: addProjectsInVector(vector_of_works);
 				break;
-			case 2: 
+			case 2:
 			{
 				cout << "Are you shure? It will destroy all data wich was in file.\n1 YES\n2 NO" << endl;
 				choice = input();
@@ -89,7 +90,7 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 				clearConsole();
 			}
 			break;
-			case 0: 
+			case 0:
 				break;
 			}
 		}
@@ -101,60 +102,8 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 		case 5: delProjectFromVector(vector_of_works);
 			break;
 		case 0: break;
-		default:
-			cout << "Invalid input. Please try again" << endl;
+		default:printOutofRangeInMenu(4);
 		}
 		clearConsole();
 	}
-}
-
-void doesFileExist(vector <TypeOfWork>& vector_of_works, int access)
-{
-	ifstream fin(FILE_DATA, ios::binary | ios::in);
-	if (!fin.is_open())
-	{
-		clearConsole();
-		cout << "File with data doesn't exist!" << endl;
-		pause();
-		if (access == 1) // если админ считывает файл, а он пустой то предлагаем создать новый
-		{
-			cout << "Do you want to create new one?" << endl;
-			cout << "1)YES\n2)NO" << endl;
-			int choice;
-			cin >> choice;
-			if (choice == 1)
-				generateProjectsVector(vector_of_works);
-			else
-				return;
-		}
-		else 
-			return;
-	}
-	else
-	{
-		int i = 0, m = 0;
-		while (!fin.eof())
-		{
-			fin >> vector_of_works[i].project_name
-				>> vector_of_works[i].name
-				>> vector_of_works[i].FIO
-				>> vector_of_works[i].ammount_of_hours
-				>> vector_of_works[i].cost_per_hour;
-			if (i + 1 == vector_of_works.size())
-				break;
-			else
-				i++;
-		}
-	}
-	fin.close();
-}
-int getCountOfTypesOfWorkInFile(string file_path)
-{
-	ifstream file(file_path, ios::in); // Открыли текстовый файл для чтения
-	int number_of_strings = 0, i = 1;
-	if (file.is_open())
-		while (file.ignore((numeric_limits<streamsize>::max)(), '\n'))
-			number_of_strings++;
-	file.close();
-	return number_of_strings;
 }

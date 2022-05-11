@@ -3,9 +3,12 @@
 void autorisatie()
 {
 	vector<Account> vector_of_accaunts;
+	vector <TypeOfWork> vector_of_works;
 	vector_of_accaunts.resize(getCountOfAccounts(FILE_ACCOUNTS));
 	readAccountsBase(vector_of_accaunts);
-	menu(vector_of_accaunts);
+	vector_of_works.resize(getCountOfTypesOfWorkInFile(FILE_DATA));
+	doesFileExist(vector_of_works, 0);
+	menu(vector_of_accaunts, vector_of_works);
 }
 
 int getCountOfAccounts(string file_path)
@@ -50,23 +53,81 @@ void readAccountsBase(vector <Account>& vector_of_accaunts)
 	fin.close();
 }
 
-int menu(vector <Account>& vector_of_accaunts)
+void doesFileExist(vector <TypeOfWork>& vector_of_works, int access)
 {
-	int choice;
+	ifstream fin(FILE_DATA, ios::binary | ios::in);
+	if (!fin.is_open())
+	{
+		clearConsole();
+		cout << "File with data doesn't exist!" << endl;
+		pause();
+		if (access == 1) // если админ считывает файл, а он пустой то предлагаем создать новый
+		{
+			cout << "Do you want to create new one?" << endl;
+			cout << "1)YES\n2)NO" << endl;
+			int choice;
+			cin >> choice;
+			if (choice == 1)
+				generateProjectsVector(vector_of_works);
+			else
+				return;
+		}
+		else
+			return;
+	}
+	else
+	{
+		int i = 0, m = 0;
+		while (!fin.eof())
+		{
+			fin >> vector_of_works[i].project_name
+				>> vector_of_works[i].name
+				>> vector_of_works[i].FIO
+				>> vector_of_works[i].ammount_of_hours
+				>> vector_of_works[i].cost_per_hour;
+			if (i + 1 == vector_of_works.size())
+				break;
+			else
+				i++;
+		}
+	}
+	fin.close();
+}
+int getCountOfTypesOfWorkInFile(string file_path)
+{
+	ifstream file(file_path, ios::in); // Открыли текстовый файл для чтения
+	int number_of_strings = 0, i = 1;
+	if (file.is_open())
+		while (file.ignore((numeric_limits<streamsize>::max)(), '\n'))
+			number_of_strings++;
+	file.close();
+	return number_of_strings;
+}
+
+void menu(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works)
+{
+	int choice = 10;
 	// лого и заголовок
-	while (true)
+	while (choice != 0)
 	{
 		cout << "\t__________AUTORISATION__________" << endl;
 		cout << "1 Log in\n2 Create new account\n0 Exit" << endl;
 		choice = input();
 		switch (choice)
 		{
-		case 1: logIn(vector_of_accaunts);
+		case 1: logIn(vector_of_accaunts, vector_of_works);
 			break;
 		case 2: singUp(vector_of_accaunts);
 			break;
-		case 0: return 0;
+		case 0:
 			break;
+		default:
+		{
+			clearConsole();
+			cout << "Enter value between 0 and 2" << endl;
+			pause();
+			clearConsole();
+		}
 		}
 	}
 }
@@ -78,6 +139,8 @@ void singUp(vector <Account>& vector_of_accaunts)
 	clearConsole();
 	createLoginAndPassword(account_temp, vector_of_accaunts, choice);
 	hashPassword(account_temp);
+	if (account_temp.login.empty())
+		return;
 	if (vector_of_accaunts.size() == 0 || vector_of_accaunts.at(0).login.empty()) // условие если список аккаунтов пуст то создаём администратора  status
 	{
 		account_temp.role = 3; // админ админов )
@@ -107,6 +170,7 @@ void singUp(vector <Account>& vector_of_accaunts)
 void createLoginAndPassword(Account& account_temp, vector <Account>& vector_of_accaunts, int choice)
 {
 	bool flag = false;
+	char approve;
 	string password1, password2;
 	while (flag == false)
 	{
@@ -120,12 +184,13 @@ void createLoginAndPassword(Account& account_temp, vector <Account>& vector_of_a
 		flag = isPasswordSuitable(account_temp, password1, password2);  // проверяем что пароли совпадают и соответсвуют нашим стандартам (X, 1 и более 5 символов)
 		if (flag == false)
 		{
+			clearConsole();
 			cout << endl << "Incorrect input. Please try again" << endl;
 			cout << endl << "If you want go back press 0" << endl;;
-			choice = _getch();
+			approve = _getch();
 			clearConsole();
 			account_temp.password.clear();
-			if (choice == '0')
+			if (approve == '0')
 				break;
 		}
 	}
@@ -170,7 +235,7 @@ string getSymbolsForSalt()
 	return symbols;
 }
 
-void logIn(vector <Account>& vector_of_accaunts)
+void logIn(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works)
 {
 	Account account_temp;
 	char back;
@@ -184,9 +249,9 @@ void logIn(vector <Account>& vector_of_accaunts)
 		if (compareInputData(account_temp, vector_of_accaunts) == true) // проверка при авторизации на правильность лгина и пароля 
 		{
 			clearConsole();
-			cout << endl << "Log in completed !!!" << endl;
+			cout << "Log in completed !!!" << endl;
 			pause();
-			enterMenu(account_temp, vector_of_accaunts);
+			enterMenu(account_temp, vector_of_accaunts, vector_of_works);
 			break;
 		}
 		else
@@ -206,9 +271,8 @@ void logIn(vector <Account>& vector_of_accaunts)
 		}
 	}
 }
-void enterMenu(Account account_temp, vector <Account>& vector_of_accaunts)
+void enterMenu(Account account_temp, vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works)
 {
-	vector <TypeOfWork> vector_of_works;
 	if (account_temp.status == 0)
 	{
 		cout << "Wait for the confirmation of registration" << endl;

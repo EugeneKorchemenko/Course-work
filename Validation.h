@@ -20,4 +20,5 @@ bool chekIfEmployeeDoSameWorkOnProject(TypeOfWork work_temp, vector<TypeOfWork> 
 //ввод с проверкой строки на корректность
 void inputLine(string& string, int SIZE);
 
-bool printFileIsEmpty(vector<TypeOfWork> vector_of_works);
+bool printFileIsEmpty(vector<TypeOfWork>& vector_of_works);
+void printOutofRangeInMenu(int NUMBER_OF_POINTS);
