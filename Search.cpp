@@ -12,8 +12,7 @@ void searchForProject(vector<TypeOfWork> vector_of_works)
 		cout << "\t\t________SEARCH________" << endl;
 		cout << "Enter the parameters by which the search will be performed:" << endl;
 		cout << "1 Project name\n2 Ammount of employees\n3 FIO of employee\n4 Cost of the project\n0 Exit" << endl;
-		cout << "Choice: ";
-		choice = input();
+		choice = input(0, 4);
 		switch (choice)
 		{
 		case 1: seerchProjectByName(vector_of_works, search);
@@ -26,7 +25,6 @@ void searchForProject(vector<TypeOfWork> vector_of_works)
 			break;
 		case 0:
 			break;
-		default:printOutofRangeInMenu(4);
 		}
 		search.clear();
 	}
@@ -50,7 +48,6 @@ void seerchProjectByName(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>&
 	if (!search.empty())
 	{
 		showProjectVector(search);
-		pause();
 		clearConsole();
 	}
 	else
@@ -67,7 +64,7 @@ void searchProjectByAmmountOfEmployees(vector<TypeOfWork> vector_of_works, vecto
 	bool flag = false;
 	clearConsole();
 	cout << "Enter ammount of employees in the project: ";
-	choice = input();
+	choice = input(0, 100);
 	cout << endl;
 	// считаем количество работников в проекте
 	countAmmountOfEmploeyeesInProject(vector_of_works, search, choice, flag);
@@ -76,10 +73,10 @@ void searchProjectByAmmountOfEmployees(vector<TypeOfWork> vector_of_works, vecto
 	{
 		cout << "There isn't any project with the same ammount of employees" << endl;
 		pause();
+		clearConsole();
 	}
 	else
 	{
-		clearConsole();
 		showProjectVector(search);
 		pause();
 		clearConsole();
@@ -87,7 +84,7 @@ void searchProjectByAmmountOfEmployees(vector<TypeOfWork> vector_of_works, vecto
 }
 void countAmmountOfEmploeyeesInProject(vector<TypeOfWork> vector_of_works, vector<TypeOfWork>& search, int choice, bool& flag)
 {
-	for (int i = 0, j = 0, firs_employee_in_project = 0, ammount_of_employees = 0; i < vector_of_works.size(); i++)
+	for (int i = 0, j = 0, firs_employee_in_project = 0, ammount_of_employees = 0, num = 0; i < vector_of_works.size(); i++)
 	{
 		if (vector_of_works.at(i).project_name == vector_of_works.at(firs_employee_in_project).project_name)
 			ammount_of_employees++;
@@ -102,6 +99,7 @@ void countAmmountOfEmploeyeesInProject(vector<TypeOfWork> vector_of_works, vecto
 			else
 			{
 				j = firs_employee_in_project;
+				num = search.size(); // номер первого записывемого в векторе поиска
 				if (search.empty())
 					firs_employee_in_project = 0;
 				while (j < i)
@@ -113,15 +111,25 @@ void countAmmountOfEmploeyeesInProject(vector<TypeOfWork> vector_of_works, vecto
 				if (ammount_of_employees == choice)
 					flag = true;
 				else
-					search.erase(search.cbegin() + firs_employee_in_project, search.cend());
+					search.erase(search.cbegin() + num, search.cend());
 			}
 			ammount_of_employees = 1;
-			firs_employee_in_project = i;
-			if (i + 1 == vector_of_works.size() && (choice == ammount_of_employees || vector_of_works.at(i).project_name == vector_of_works.at(firs_employee_in_project).project_name))
+			if (i + 1 == vector_of_works.size() && (/*choice == ammount_of_employees ||*/ vector_of_works.at(i).project_name == vector_of_works.at(firs_employee_in_project).project_name))
 			{
 				search.push_back(vector_of_works.at(i));
 				flag = true;
 			}
+			if (vector_of_works.size() - i + 1 == choice && i + 1 != vector_of_works.size())
+			{
+				search.push_back(vector_of_works.at(i));
+				flag = true;
+			}
+			if (i + 1 == vector_of_works.size() == choice && choice == ammount_of_employees && vector_of_works.at(i).project_name != vector_of_works.at(i - 1).project_name)
+			{
+				search.push_back(vector_of_works.at(i));
+				flag = true;
+			}
+			firs_employee_in_project = i;
 		}
 		
 	}
@@ -153,7 +161,6 @@ void searchProjectsWhereEmployeeWork(vector<TypeOfWork> vector_of_works, vector<
 	if (!search.empty())
 	{
 		showPersonalInformationAboutEmployee(search);
-		pause();
 		clearConsole();
 	}
 	else
@@ -168,9 +175,9 @@ void searchProjectsWithSuitableCost(vector<TypeOfWork> vector_of_works, vector<T
 	int min_cost, max_cost, cost = 0;
 	clearConsole();
 	cout << "Enter the lower limit of the range: ";
-	min_cost = input();
+	min_cost = input(0, pow(10, 6));
 	cout << "Enter the upper limit of the range: ";
-	max_cost = input();
+	max_cost = input(min_cost, pow(10, 8));
 	for (int i = 0, j = 0; i < vector_of_works.size(); i++)
 	{
 		if (i == 0 || vector_of_works.at(i).project_name == vector_of_works.at(j).project_name)
@@ -181,13 +188,16 @@ void searchProjectsWithSuitableCost(vector<TypeOfWork> vector_of_works, vector<T
 			{
 				cost = 0;
 				j = i;
-				if (i + 1 != vector_of_works.size()) // иначе никогда не выйдем
+				if (i + 1 == vector_of_works.size() || vector_of_works.at(i - 1).project_name != vector_of_works.at(j).project_name) // иначе никогда не выйдем
 					i--;
 				continue;
 			}
 			else
 			{
-				writeProjectInVector(vector_of_works, search, j, i - 1);
+				if (i + 1 == vector_of_works.size())
+					writeProjectInVector(vector_of_works, search, j, i);
+				else
+					writeProjectInVector(vector_of_works, search, j, i - 1);
 				j = i;
 				if (i + 1 != vector_of_works.size())
 					i--;
@@ -199,7 +209,6 @@ void searchProjectsWithSuitableCost(vector<TypeOfWork> vector_of_works, vector<T
 	if (!search.empty())
 	{
 		showProjectVector(search);
-		pause();
 		clearConsole();
 	}
 	else

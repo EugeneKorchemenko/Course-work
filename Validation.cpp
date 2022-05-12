@@ -1,5 +1,29 @@
 #include "Validation.h"
 
+int input(int min, int max)
+{
+	int number;
+	while (true)
+	{
+		cin >> number;
+		if (cin.get() == '\n') //если удалось считать число, останется n т.е ввод выполнен корректно
+		{
+			if (number > max || number < min)
+			{
+				cout << "Incorrect input. Number is out of range(" << min << " - " << max << ")" << endl;
+				continue;
+			}
+			break;
+		}
+		else
+		{
+			cin.clear(); // сбрасывает флаги ошибок.Если возникает ошибка, устанавливается флаг ошибки, и будущие попытки получить ввод не удастся
+			cin.ignore((numeric_limits<streamsize>::max)(), '\n'); // игнорирует (очищает) ввод '\n' устанавливает разделитель, то есть символ, после которого cin перестает игнорировать numeric_limits<streamsize>::max() устанавливает максимальное количество символов для игнорирования 
+			cout << "\nIncorrect input\n\n";
+		}
+	}
+	return number;
+}
 int input()
 {
 	int number;

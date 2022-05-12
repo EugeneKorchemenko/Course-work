@@ -10,7 +10,7 @@ void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vec
 		clearConsole();
 		cout << "\tMode: Admin" << endl;
 		cout << "Choose:\n1 Work with data\n2 Work with accounts\n0 Exit" << endl;
-		choice = input();
+		choice = input(0, 2);
 		switch (choice)
 		{
 		case 1: workWithData(vector_of_works);
@@ -23,19 +23,19 @@ void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vec
 			return;
 		}*/
 			break;
-		default:printOutofRangeInMenu(2);
 		}
 	}
+	clearConsole();
 }
 void workWithAcccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login)
 {
-	int n = 1, choice;
-	while (n != 0)
+	int choice = 10;
+	while (choice != 0)
 	{
 		clearConsole();
 		cout << "\t________MENU_______" << endl;
 		cout << "1 Show list of accounts\n2 Show outgoing registration applications\n3 Edit accounts\n4 Change password\n0 Exit" << endl;
-		cin >> choice;
+		choice = input(0, 4);
 		switch (choice)
 		{
 		case 1: showListOfAccounts(vector_of_accaunts); sortAccounts(vector_of_accaunts);
@@ -46,23 +46,21 @@ void workWithAcccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>
 			break;
 		case 4: changePassword(vector_of_accaunts, login);
 			break;
-		case 0:
-			break;
-		default:printOutofRangeInMenu(4);
+		case 0: break;
 		}
 	}
 	clearConsole();
 }
 void workWithData(vector <TypeOfWork>& vector_of_works)
 {
-	int n = 1, choice;
-	while (n != 0)
+	int  choice = 10;
+	while (choice != 0)
 	{
 		clearConsole();
 		cout << "\t________MENU_______" << endl;
 		cout << "1 Show information about projects\n2 Add new project\n3 Edit project\n4 Search by projects\n5 Delete project\n0 Exit" << endl;
-		n = input();
-		switch (n)
+		choice = input(0, 5);
+		switch (choice)
 		{
 		case 1: showProjectVector(vector_of_works);
 			break;
@@ -71,7 +69,7 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 			clearConsole();
 			cout << "\t______CHOOSE______" << endl;
 			cout << "1 Add project\n2 Add project with delete\n0 Exit" << endl;
-			cin >> choice;
+			choice = input(0, 2);
 			switch (choice)
 			{
 			case 1: addProjectsInVector(vector_of_works);
@@ -90,8 +88,8 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 				clearConsole();
 			}
 			break;
-			case 0:
-				break;
+			case 0: choice = 10;
+				continue;
 			}
 		}
 		break;
@@ -102,8 +100,7 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 		case 5: delProjectFromVector(vector_of_works);
 			break;
 		case 0: break;
-		default:printOutofRangeInMenu(4);
 		}
-		clearConsole();
 	}
+	clearConsole();
 }

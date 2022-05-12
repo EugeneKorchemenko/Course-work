@@ -112,7 +112,7 @@ void menu(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_wo
 	{
 		cout << "\t__________AUTORISATION__________" << endl;
 		cout << "1 Log in\n2 Create new account\n0 Exit" << endl;
-		choice = input();
+		choice = input(0, 2);
 		switch (choice)
 		{
 		case 1: logIn(vector_of_accaunts, vector_of_works);
@@ -121,13 +121,6 @@ void menu(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_wo
 			break;
 		case 0:
 			break;
-		default:
-		{
-			clearConsole();
-			cout << "Enter value between 0 and 2" << endl;
-			pause();
-			clearConsole();
-		}
 		}
 	}
 }
@@ -140,7 +133,10 @@ void singUp(vector <Account>& vector_of_accaunts)
 	createLoginAndPassword(account_temp, vector_of_accaunts, choice);
 	hashPassword(account_temp);
 	if (account_temp.login.empty())
+	{
+		cout << "You haven't entered login" << endl;
 		return;
+	}
 	if (vector_of_accaunts.size() == 0 || vector_of_accaunts.at(0).login.empty()) // условие если список аккаунтов пуст то создаём администратора  status
 	{
 		account_temp.role = 3; // админ админов )
@@ -152,7 +148,7 @@ void singUp(vector <Account>& vector_of_accaunts)
 	{
 		cout << "Choose role: ";
 		cout << "1 User\t2 Admin" << endl;
-		cin >> choice;
+		choice = input(1, 2);
 		switch (choice)
 		{
 		case 1: account_temp.role = 1;
@@ -184,6 +180,7 @@ void createLoginAndPassword(Account& account_temp, vector <Account>& vector_of_a
 		flag = isPasswordSuitable(account_temp, password1, password2);  // проверяем что пароли совпадают и соответсвуют нашим стандартам (X, 1 и более 5 символов)
 		if (flag == false)
 		{
+			pause();
 			clearConsole();
 			cout << endl << "Incorrect input. Please try again" << endl;
 			cout << endl << "If you want go back press 0" << endl;;

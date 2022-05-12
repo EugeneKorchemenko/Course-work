@@ -9,7 +9,7 @@
 using namespace std;
 
 int input();
-
+int input(int min, int max);
 
 bool isLoginUnique(Account account_temp, vector <Account> vector_of_accaunts);
 bool isPasswordSuitable(Account& account_temp, string password1, string password2);

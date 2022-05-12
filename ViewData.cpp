@@ -127,7 +127,7 @@ void showPersonalInformationAboutEmployee(vector<TypeOfWork>& search)
 	cout << "-----------------------------------------------------" << endl;
 	cout << endl << "Employee: " << search.at(0).FIO << endl << endl;
 	cout << "-----------------------------------------------------" << endl;
-	cout << "|      POJECT      | TYPE OF WORK | HOURS | COST/HOUR|\n";
+	cout << "|      PROJECT      | TYPE OF WORK | HOURS | COST/HOUR|\n";
 	for (int i = 0; i < search.size(); i++)
 	{
 		cost += search.at(i).ammount_of_hours * search.at(i).cost_per_hour;
@@ -256,7 +256,7 @@ void showApplications(vector <Account>& vector_of_accaunts)
 		while (vector_unverified_accounts.size() != 0)
 		{
 			cout << "Choose:\n1 Sort alphabetically\n2 Approve the application\n3 Deny the application\n0 Back" << endl;
-			cin >> choice;
+			choice = input(0, 3);
 			switch (choice)
 			{
 			case 1: sortAccountByLogin(vector_unverified_accounts);

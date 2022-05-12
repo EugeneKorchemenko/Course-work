@@ -21,6 +21,7 @@ void changeProjectName(vector<TypeOfWork>& vector_of_works, int choice);
 void editEmployeeInProject(vector<TypeOfWork>& vector_of_works, int choice);
 void addEmployeesInProject(vector<TypeOfWork>& vector_of_works, int choice);
 void deleteEmployee(vector<TypeOfWork>& vector_of_works, int choice);
+void chooseEditingEmployee(vector<TypeOfWork> vector_of_works, int& choice);
 void delProjectFromVector(vector<TypeOfWork>& vector_of_works);
 // изменение аккаунта
 void editAccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login);

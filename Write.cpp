@@ -14,7 +14,7 @@ void generateProjectsVector(vector<TypeOfWork>& vector_of_works)
 		inputLine(name, 18);
 		cout << "Enter how many employees include into project" << endl;
 		int em;
-		em = input();
+		em = input(1, 100);
 		vector_of_works.resize(vector_of_works.size() + em);
 		for (int m = size; m < vector_of_works.size(); m++)
 		{
@@ -31,30 +31,26 @@ void inputInformation(vector<TypeOfWork>& vector_of_works, int m)
 	cout << "Enter FIO of employee (max size is 25)" << endl;
 	inputLine(vector_of_works.at(m).FIO,25);
 	cout << "Enter ammount of hours" << endl;
-	vector_of_works.at(m).ammount_of_hours = input();
+	vector_of_works.at(m).ammount_of_hours = input(1, 999);
 	cout << "Enter " << vector_of_works.at(m).FIO << "'s hourly cost" << endl;
-	vector_of_works.at(m).cost_per_hour = input();
+	vector_of_works.at(m).cost_per_hour = input(1, 999);
 }
 void chooseWorkName(vector<TypeOfWork>& vector_of_works, int m)
 {
 	int n = 10;
-	while (n != 0)
+	cout << "Choose type of work" << endl;
+	cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
+	n = input(1, 4);
+	switch (n)
 	{
-		cout << "Choose type of work" << endl;
-		cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
-		n = input();
-		switch (n)
-		{
-		case 1: vector_of_works.at(m).name = "Requirements";
-			break;
-		case 2: vector_of_works.at(m).name = "Development";
-			break;
-		case 3: vector_of_works.at(m).name = "Implementation";
-			break;
-		case 4: vector_of_works.at(m).name = "Testing";
-			break;
-		default:printOutofRangeInMenu(4);
-		}
+	case 1: vector_of_works.at(m).name = "Requirements";
+		break;
+	case 2: vector_of_works.at(m).name = "Development";
+		break;
+	case 3: vector_of_works.at(m).name = "Implementation";
+		break;
+	case 4: vector_of_works.at(m).name = "Testing";
+		break;
 	}
 }
 void writeFileProjects(vector<TypeOfWork> vector_of_works)
@@ -88,7 +84,7 @@ void addProjectsInVector(vector<TypeOfWork>& vector_of_works)
 		cout << "Enter name of the project: (max size is 18)" << endl;
 		inputLine(name, 18);
 		cout << "Enter how many employees include into project" << endl;
-		employees = input();
+		employees = input(1, 100);
 		for (int m = 0; m < employees; m++)
 		{
 			inputInformation(work_temp, name, vector_of_works);
@@ -106,9 +102,9 @@ void inputInformation(TypeOfWork& work_temp, string name, vector<TypeOfWork> vec
 		cout << "Enter FIO of employee (max size is 25)" << endl;
 		inputLine(work_temp.FIO, 25);
 		cout << "Enter ammount of hours" << endl;
-		work_temp.ammount_of_hours = input();
+		work_temp.ammount_of_hours = input(1, 999);
 		cout << "Enter " << work_temp.FIO << "'s hourly cost" << endl;
-		work_temp.cost_per_hour = input();
+		work_temp.cost_per_hour = input(1, 999);
 		if (chekIfEmployeeDoSameWorkOnProject(work_temp, vector_of_works))
 			break;
 		else
@@ -118,23 +114,19 @@ void inputInformation(TypeOfWork& work_temp, string name, vector<TypeOfWork> vec
 void chooseWorkName(TypeOfWork& work)
 {
 	int n = 10;
-	while (n != 0)
+	cout << "Choose type of work" << endl;
+	cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
+	n = input(1, 4);
+	switch (n)
 	{
-		cout << "Choose type of work" << endl;
-		cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
-		n = input();
-		switch (n)
-		{
-		case 1: work.name = "Requirements";
-			break;
-		case 2: work.name = "Development";
-			break;
-		case 3: work.name = "Implementation";
-			break;
-		case 4: work.name = "Testing";
-			break;
-		default:printOutofRangeInMenu(4);
-		}
+	case 1: work.name = "Requirements";
+		break;
+	case 2: work.name = "Development";
+		break;
+	case 3: work.name = "Implementation";
+		break;
+	case 4: work.name = "Testing";
+		break;
 	}
 }
 void writeEndFileProject(TypeOfWork work_temp, vector<TypeOfWork> vector_of_works)
