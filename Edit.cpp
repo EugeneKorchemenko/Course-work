@@ -6,10 +6,10 @@ void chooseEditingProject(vector<TypeOfWork>& vector_of_works)
 	vector <Project> vector_of_projects;
 	int choice;
 	if (printFileIsEmpty(vector_of_works))
-		return;	cout << "Choose Project which you want to edit: " << endl;
+		return;	
+	cout << CHOOSE_EDITING_PROJECT << endl;
 	showProjects(vector_of_works, vector_of_projects);
-	cout << endl << "Press 0 to turn back" << endl;
-	cout << "Choice: ";
+	cout << endl << O_TO_TURN_BACK << endl;
 	choice = input() - 1;
 	if (choice == -1)
 		return;
@@ -38,14 +38,14 @@ void chooseKindOfEditing(vector<TypeOfWork>& vector_of_works, int choice)
 	{
 		cout << "\t\t_______EDITING_______" << endl;
 		cout << "Project: " << vector_of_works.at(choice).project_name << endl << endl;
-		cout << "1 Edit all information about project\n2 Edit name of project\n3 Edit employee\n4 Add employees in prject\n5 Delete employee from project\n0 Back" << endl;
+		cout << EDIT_DATA << endl;
 		ed = input(0, 5);
 		switch (ed)
 		{
 		case 1: // изменяет весь проект целиком
 			editWholeProject(vector_of_works, choice);
 			break;
-		case 2:// меняет имя у последнего типа работ проекта
+		case 2:// меняет имя проекта
 			changeProjectName(vector_of_works, choice);
 			break;
 		case 3:// изменяет выбранный тип работ в проекте
@@ -67,7 +67,7 @@ void editWholeProject(vector<TypeOfWork>& vector_of_works, int choice)
 	TypeOfWork work_temp;
 	int size, em, approve;
 	clearConsole();
-	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
+	cout << SURE << endl;
 	approve = input();
 	if (approve == 1)
 	{
@@ -82,17 +82,19 @@ void editWholeProject(vector<TypeOfWork>& vector_of_works, int choice)
 			}
 		}
 		writeFileProjects(vector_of_works);
-		cout << "Enter how many employees include into project" << endl;
+		cout << HOW_MANY_EMPLOYEES << endl;
 		em = input();
 		vector_of_works.resize(vector_of_works.size() + em);
 		size = vector_of_works.size();
 		for (int m = (vector_of_works.size() - em); m < size; m++)
 		{
-			inputInformation(work_temp, name, vector_of_works);// перегруженная функция реализация находится в Write.h
+			inputInformation(work_temp, name, vector_of_works);// перегруженная функция. Pеализация находится в Write.h
 			vector_of_works.push_back(work_temp);
 			writeEndFileProject(work_temp, vector_of_works);
 		}
 	}
+	cout << "Editing was successful" << endl;
+	pause();
 	clearConsole();
 }
 void changeProjectName(vector<TypeOfWork>& vector_of_works, int choice)
@@ -102,26 +104,68 @@ void changeProjectName(vector<TypeOfWork>& vector_of_works, int choice)
 	clearConsole();
 	name = vector_of_works.at(choice).project_name;
 	cout << "Enter new name of project" << endl;
-	inputLine(new_name, 18);
+	inputLine(new_name, PROJECT_SIZE);
 	cout << "Accept changes?\nChoose:\t1 YES\t2 NO" << endl;
-	approve = input();	
+	approve = input(1, 2);	
 	if (approve == 1)
 	{
 		for (int i = 0; i < vector_of_works.size(); i++)
 			if (vector_of_works.at(i).project_name == name)
 				vector_of_works.at(i).project_name = new_name;
 		writeFileProjects(vector_of_works);
+		clearConsole();
+		cout << "Name has been changed" << endl;
+		pause();
 	}
 	clearConsole();
 }
 void editEmployeeInProject(vector<TypeOfWork>& vector_of_works, int choice)
 {
-	int i = 0;
+	int descission, i = 0;
 	clearConsole();
 	chooseEditingEmployee(vector_of_works, choice);
-	inputInformation(vector_of_works, choice);
-	writeFileProjects(vector_of_works);
+	cout << SURE << endl;
+	descission = input();
+	if (descission == 1)
+	{ 
+		clearConsole();
+		TypeOfWork edit = vector_of_works.at(choice);
+		showPersonalInformationAboutEmployee(edit);
+		cout << "Choose what information about " << vector_of_works.at(choice).FIO << " would you like to edit: " << endl;
+		cout << CHOOSE_PARAM_OF_EMPLOYEE << endl;
+		descission = input(0, 5);
+		switch (descission)
+		{
+		case 1: editSurname(vector_of_works, choice);
+			break;
+		case 2: chooseWorkName(vector_of_works, choice);
+			break;
+		case 3: editAmmountOfHours(vector_of_works, choice);
+			break;
+		case 4: editCostPerHour(vector_of_works, choice);
+			break;
+		case 5: inputInformation(vector_of_works, choice);
+			break;
+		}
+		clearConsole();		
+		writeFileProjects(vector_of_works);
+	}
 	clearConsole();
+}
+void editSurname(vector<TypeOfWork>& vector_of_works, int choice)
+{
+	cout << ENTER_SURNAME << endl;
+	inputLine(vector_of_works.at(choice).FIO, SURNAME_SIZE);
+}
+void editAmmountOfHours(vector<TypeOfWork>& vector_of_works, int choice)
+{
+	cout << ENTER_HOURS << endl;
+	vector_of_works.at(choice).ammount_of_hours = input(1, MAX_HOURS);
+}
+void editCostPerHour(vector<TypeOfWork>& vector_of_works, int choice)
+{
+	cout << "Enter " << vector_of_works.at(choice).FIO << "'s hourly cost: ";
+	vector_of_works.at(choice).cost_per_hour = input(1, MAX_COST_OF_HOUR);
 }
 void addEmployeesInProject(vector<TypeOfWork>& vector_of_works, int choice)
 {
@@ -129,7 +173,7 @@ void addEmployeesInProject(vector<TypeOfWork>& vector_of_works, int choice)
 	string name = vector_of_works.at(choice).project_name;
 	int number_of_employees;
 	clearConsole();
-	cout << "Enter how many employees do you want to add in project" << endl;
+	cout << ADD_EMPLOYEES;
 	number_of_employees = input(1, 100);
 	for (int i = choice, j = choice; i < choice + number_of_employees; i++)
 	{
@@ -141,32 +185,40 @@ void addEmployeesInProject(vector<TypeOfWork>& vector_of_works, int choice)
 	}
 	writeFileProjects(vector_of_works);
 	clearConsole();
+	cout << "Employes have been added" << endl;
+	pause();
+	clearConsole();
 }
 void deleteEmployee(vector<TypeOfWork>& vector_of_works, int choice)
 {
 	int descission, i = 0;
 	clearConsole();
 	chooseEditingEmployee(vector_of_works, choice);
-	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
-	descission = input();
+	cout << SURE << endl;
+	descission = input(1, 2);
 	if (descission == 1)
 	{
-		vector_of_works.erase(vector_of_works.cbegin() + (choice - 1));
+		vector_of_works.erase(vector_of_works.cbegin() + (choice));
 		writeFileProjects(vector_of_works);
+		clearConsole();
+		cout << DELITION << endl;
 	}
+	pause();
 	clearConsole();
 }
 void chooseEditingEmployee(vector<TypeOfWork> vector_of_works, int& choice)
 {
 	int i = 0 , j = 0, first, last;
-	cout << "----------------------------------" << endl;
-	cout << "|  ID  | SURNAME OF THE EMPLOYEE |" << endl;
-	cout << "----------------------------------" << endl;
+	cout << "-------------------------------------------------" << endl;
+	cout << "|  ID  | SURNAME OF THE EMPLOYEE | TYPE OF WORK |" << endl;
+	cout << "-------------------------------------------------" << endl;
 	while (i != vector_of_works.size())
 	{
 		if (vector_of_works.at(i).project_name == vector_of_works.at(choice).project_name)
 		{
-			cout << "|" << i + 1 << setw(7 - num(i + 1)) << "|" << vector_of_works.at(i).FIO << setw(26 - vector_of_works.at(i).FIO.size()) << "|" << endl;
+			cout << "|" << i + 1 << setw(7 - num(i + 1)) << "|"
+				 << vector_of_works.at(i).FIO << setw(26 - vector_of_works.at(i).FIO.size()) << "|"
+				 << vector_of_works.at(i).name << setw(15 - vector_of_works.at(i).name.size())<< "|" << endl;
 			j++; // считает количество выводимых сотрудников
 			if (j == 1)
 				first = i + 1;
@@ -174,9 +226,9 @@ void chooseEditingEmployee(vector<TypeOfWork> vector_of_works, int& choice)
 		i++;
 	}
 	last = first - 1 + j;
-	cout << "----------------------------------" << endl;
+	cout << "-------------------------------------------------" << endl;
 	cout << "Input ID of the employee: ";
-	choice = input(first, last);
+	choice = input(first, last) - 1;
 }
 
 void delProjectFromVector(vector<TypeOfWork>& vector_of_works)
@@ -186,19 +238,18 @@ void delProjectFromVector(vector<TypeOfWork>& vector_of_works)
 	clearConsole();
 	if (printFileIsEmpty(vector_of_works))
 		return;
-	cout << "_______DELITING_______" << endl;
 	cout << "Choose Project which tou want to delete:" << endl;
 	showProjects(vector_of_works, vector_of_projects);
-	cout << endl << "Press 0 to turn back" << endl;
+	cout << endl << O_TO_TURN_BACK << endl;
 	cout << "Choice: ";
-	choice = input(1, vector_of_projects.size()) - 1;
+	choice = input(0, vector_of_projects.size()) - 1;
 	if (choice != -1)
 	{
-		cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
+		cout << SURE << endl;
 		descission = input(1, 2);
 		if (descission == 1)
 		{
-			string name = vector_of_works.at(choice).project_name;
+			string name = vector_of_projects.at(choice).name;
 			for (int i = 0; i < vector_of_works.size(); i++)
 			{
 				if (vector_of_works.at(i).project_name == name)
@@ -209,10 +260,11 @@ void delProjectFromVector(vector<TypeOfWork>& vector_of_works)
 			}
 		}
 		writeFileProjects(vector_of_works);
+	cout << DELITION << endl;
 	}
+	pause();
 	clearConsole();
 }
-
 
 void editAccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login)
 {
@@ -222,7 +274,7 @@ void editAccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vec
 		clearConsole();
 		cout << "\t\t_______EDITING_______" << endl;
 		showListOfAccounts(vector_of_accaunts);
-		cout << "Choose action:\n1 Add new account\n2 Delete account\n3 Block account\n4 Unlock accountt\n5 Change role of the account\n6 Change password\n0 Back" << endl;
+		cout << EDIT_ACCOUNT << endl;
 		ed = input(0, 6);
 		switch (ed)
 		{
@@ -243,7 +295,6 @@ void editAccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vec
 		}
 		case 0:
 			break;
-		default:printOutofRangeInMenu(6);
 		}
 		clearConsole();
 	}
@@ -255,11 +306,11 @@ void deleteAccount(vector <Account>& vector_of_accaunts, string login)
 	choice = chooseAccount(vector_of_accaunts);
 	if (choice == -1)
 		return;
-	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
+	cout << SURE << endl;
 	approve = input();
 	if (approve == 1)
 	{
-		if (vector_of_accaunts.at(choice).role == 3)
+		if (vector_of_accaunts.at(choice).role == HEAD_ADMIN)
 		{
 			cout << "You can't delete head admin" << endl;
 			pause();
@@ -279,7 +330,7 @@ void blockAccount(vector <Account>& vector_of_accaunts, string login)
 	choice = chooseAccount(vector_of_accaunts);
 	if (choice == -1)
 		return;
-	if (vector_of_accaunts.at(choice).role == 3)
+	if (vector_of_accaunts.at(choice).role == HEAD_ADMIN)
 	{
 		cout << "You can't block main admin" << endl;
 		pause();
@@ -293,24 +344,24 @@ void blockAccount(vector <Account>& vector_of_accaunts, string login)
 		clearConsole();
 		return;
 	}
-	if (vector_of_accaunts.at(choice).status == 0)
+	if (vector_of_accaunts.at(choice).status == UNACTIVATED_ACCOUNT)
 	{
 		cout << "You have to activate this account first" << endl;
 		pause();
 		clearConsole();
 		return;
 	}
-	if (vector_of_accaunts.at(choice).status == 2)
+	if (vector_of_accaunts.at(choice).status == BLOCKED_ACCOUNT)
 	{
 		cout << "This account is already blocked" << endl;
 		pause();
 		clearConsole();
 	}
-	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
+	cout << SURE << endl;
 	approve = input(1, 2);
 	if (approve == 1)
 	{
-		vector_of_accaunts.at(choice).status = 2;
+		vector_of_accaunts.at(choice).status = BLOCKED_ACCOUNT;
 		writeFileAccounts(vector_of_accaunts);
 		clearConsole();
 	}
@@ -321,21 +372,21 @@ void unlockAccount(vector <Account>& vector_of_accaunts)
 	choice = chooseAccount(vector_of_accaunts);
 	if (choice == -1)
 		return;
-	if (vector_of_accaunts.at(choice).status == 0)
+	if (vector_of_accaunts.at(choice).status == BLOCKED_ACCOUNT)
 	{
 		cout << "You have to activate this account first" << endl;
 		pause();
 		clearConsole();
 	}
-	if (vector_of_accaunts.at(choice).status == 1)
+	if (vector_of_accaunts.at(choice).status == ACTIVATED_ACCOUNT)
 	{
 		cout << "This account is already activated" << endl;
 		pause();
 		clearConsole();
 	}
-	if (vector_of_accaunts.at(choice).status == 2)
+	if (vector_of_accaunts.at(choice).status == BLOCKED_ACCOUNT)
 	{
-		vector_of_accaunts.at(choice).status = 1;
+		vector_of_accaunts.at(choice).status = ACTIVATED_ACCOUNT;
 		writeFileAccounts(vector_of_accaunts);
 		clearConsole();
 	}
@@ -346,24 +397,24 @@ void changeRole(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vecto
 	choice = chooseAccount(vector_of_accaunts);
 	if (choice == -1)
 		return;
-	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
+	cout << SURE << endl;
 	approve = input(1, 2);
 	if (approve == 1)
 	{
-		if (vector_of_accaunts.at(choice).role == 3)
+		if (vector_of_accaunts.at(choice).role == HEAD_ADMIN)
 		{
 			clearConsole();
 			cout << "You can't change role of head admin" << endl;
 			pause();
 			return;
 		}
-		if (vector_of_accaunts.at(choice).role == 1)
+		if (vector_of_accaunts.at(choice).role == USER)
 		{
-			vector_of_accaunts.at(choice).role = 2;
+			vector_of_accaunts.at(choice).role = ADMIN;
 			writeFileAccounts(vector_of_accaunts);
 			return;
 		}
-		if (vector_of_accaunts.at(choice).role == 2)
+		if (vector_of_accaunts.at(choice).role == ADMIN)
 		{
 			if (vector_of_accaunts.at(choice).login == login)
 			{
@@ -372,7 +423,7 @@ void changeRole(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vecto
 				pause();
 			}
 			else
-				vector_of_accaunts.at(choice).role = 1;
+				vector_of_accaunts.at(choice).role = USER;
 			writeFileAccounts(vector_of_accaunts);
 			return;
 		}
@@ -382,11 +433,16 @@ int chooseAccount(vector <Account>& vector_of_accaunts)
 {
 	int choice;
 	showListOfAccounts(vector_of_accaunts);
-	cout << "Enter 0 to come back" << endl;
+	cout << O_TO_TURN_BACK << endl;
 	cout << "Choose account which you want to edit:" << endl;
 	choice = input(0, vector_of_accaunts.size());
 	if (choice == 0)
 		return -1;
+	if (vector_of_accaunts.at(choice).role == HEAD_ADMIN)
+	{
+		cout << "You can't change password of head admin" << endl;
+		return -1;
+	}
 	return choice - 1;
 }
 void changePassword(vector <Account>& vector_of_accaunts, string login)
@@ -396,7 +452,7 @@ void changePassword(vector <Account>& vector_of_accaunts, string login)
 	char approve;
 	clearConsole();
 	account_temp.login = login;
-	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
+	cout << SURE << endl;
 	approve = input(1, 2);
 	clearConsole();
 	if (approve == 1)
@@ -414,6 +470,9 @@ void changePassword(vector <Account>& vector_of_accaunts, string login)
 				{
 					vector_of_accaunts.at(i).hash_password_with_salt = sha256(sha256(account_temp.password + account_temp.salt) + sha256(account_temp.password));
 					writeFileAccounts(vector_of_accaunts);
+					clearConsole();
+					cout << "Password has been chaanged successfully" << endl;
+					pause();
 				}
 			}
 		}
@@ -441,14 +500,14 @@ bool inputNewPassword(vector <Account>& vector_of_accaunts, Account& account_tem
 		if (flag == true)
 		{
 			cout << "Enter new password: ";
-			inputLine(password1, 20);
-			cout << "Enter it again: ";
-			inputLine(password2, 20);
+			inputLine(password1, PASSWORD_SIZE);
+			cout << ENTER_PASSWORD_AGAIN;
+			inputLine(password2, PASSWORD_SIZE);
 			clearConsole();
 			flag = isPasswordSuitable(account_temp, password1, password2);  // проверяем что пароли совпадают и соответсвуют нашим стандартам ( X+1 и более 5 символов) flag == true
 			if (flag == false)
 			{
-				cout << endl << "If you want go back press 0" << endl;
+				cout << endl << O_TO_TURN_BACK << endl;
 				approve = _getch();
 				pause();
 				clearConsole();
@@ -487,7 +546,6 @@ void approveApplication(vector <Account>& vector_unverified_accounts, vector <Ac
 		break;
 	case 0: return;
 		break;
-	default:printOutofRangeInMenu(2);
 	}
 	clearConsole();
 	showListOfAccounts(vector_unverified_accounts);
@@ -496,15 +554,15 @@ void approveAllApplications(vector <Account>& vector_unverified_accounts, vector
 {
 	clearConsole();
 	int approve;
-	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
+	cout << SURE << endl;
 	approve = input(1, 2);
 	if (approve == 1)
 	{
 		for (int i = 0; i < vector_of_accaunts.size(); i++) // меняем статус в векторе всех аккаунтов
 		{
-			if (vector_of_accaunts.at(i).status == 0)
+			if (vector_of_accaunts.at(i).status == UNACTIVATED_ACCOUNT)
 			{
-				vector_of_accaunts.at(i).status = 1;
+				vector_of_accaunts.at(i).status = ACTIVATED_ACCOUNT;
 				vector_unverified_accounts.clear();
 			}
 		}
@@ -517,15 +575,15 @@ void approveOneApplication(vector <Account>& vector_unverified_accounts, vector 
 	cout << "Enter number of the appliction: ";
 	choice = input(1, vector_unverified_accounts.size());
 	clearConsole();
-	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
+	cout << SURE << endl;
 	approve = input(1, 2);
 	if (approve == 1)
 	{
-		vector_unverified_accounts.at(choice - 1).status = 1;
+		vector_unverified_accounts.at(choice - 1).status = ACTIVATED_ACCOUNT;
 		for (int i = 0; i < vector_of_accaunts.size(); i++) // меняем статус в векторе всех аккаунтов
 		{
 			if (vector_unverified_accounts.at(choice - 1).login == vector_of_accaunts.at(i).login)
-				vector_of_accaunts.at(i).status = 1;
+				vector_of_accaunts.at(i).status = UNACTIVATED_ACCOUNT;
 		}
 		vector_unverified_accounts.erase(vector_unverified_accounts.cbegin() + (choice - 1)); // удаляем из списка неподтвержденных аккаунтов
 		writeFileAccounts(vector_of_accaunts); // сохраняем измененив файл
@@ -537,7 +595,7 @@ void deleteApplication(vector <Account>& vector_unverified_accounts, vector <Acc
 	clearConsole();
 	showListOfAccounts(vector_unverified_accounts);
 	int choice;
-	cout << "Choose: \t1 Delete all\t2 Delete one\t0 Back\n" << endl;
+	cout << "Choose: \n1Deny all\n2 Deny one\n0 Back" << endl;
 	choice = input(0, 2);
 	switch (choice)
 	{
@@ -554,13 +612,13 @@ void deleteApplication(vector <Account>& vector_unverified_accounts, vector <Acc
 void deleteAllApplications(vector <Account>& vector_unverified_accounts, vector <Account>& vector_of_accaunts)
 {
 	int approve;
-	cout << "Are you sure?\nChoose:\t1 YES\t2 NO" << endl;
+	cout << SURE << endl;
 	approve = input(1, 2);
 	if (approve == 1)
 	{
 		for (int i = 0; i < vector_of_accaunts.size(); i++) // меняем статус в векторе всех аккаунтов
 		{
-			if (vector_of_accaunts.at(i).status == 0)
+			if (vector_of_accaunts.at(i).status == UNACTIVATED_ACCOUNT)
 			{
 				vector_of_accaunts.erase(vector_of_accaunts.cbegin() + i);
 				vector_unverified_accounts.clear();

@@ -107,11 +107,10 @@ int getCountOfTypesOfWorkInFile(string file_path)
 void menu(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works)
 {
 	int choice = 10;
-	// лого и заголовок
+	// лого 
 	while (choice != 0)
 	{
-		cout << "\t__________AUTORISATION__________" << endl;
-		cout << "1 Log in\n2 Create new account\n0 Exit" << endl;
+		cout << MENU_AUTORISATION << endl;
 		choice = input(0, 2);
 		switch (choice)
 		{
@@ -132,32 +131,17 @@ void singUp(vector <Account>& vector_of_accaunts)
 	clearConsole();
 	createLoginAndPassword(account_temp, vector_of_accaunts, choice);
 	hashPassword(account_temp);
-	if (account_temp.login.empty())
-	{
-		cout << "You haven't entered login" << endl;
-		return;
-	}
 	if (vector_of_accaunts.size() == 0 || vector_of_accaunts.at(0).login.empty()) // условие если список аккаунтов пуст то создаём администратора  status
 	{
-		account_temp.role = 3; // админ админов )
-		account_temp.status = 1;
+		account_temp.role = HEAD_ADMIN; // главный администратор
+		account_temp.status = ACTIVATED_ACCOUNT;
 		vector_of_accaunts.at(0) = account_temp;
 		rewriteAccount(account_temp);
 	}
 	else
 	{
-		cout << "Choose role: ";
-		cout << "1 User\t2 Admin" << endl;
-		choice = input(1, 2);
-		switch (choice)
-		{
-		case 1: account_temp.role = 1;
-			break;
-		case 2:account_temp.role = 2;
-			break;
-		default: cout << "Please, enter 1 or 2";
-		}
-		account_temp.status = 0;
+		account_temp.role = USER;
+		account_temp.status = UNACTIVATED_ACCOUNT;
 		vector_of_accaunts.push_back(account_temp);
 		writeAccountInTheEnd(account_temp);
 	}
@@ -170,20 +154,19 @@ void createLoginAndPassword(Account& account_temp, vector <Account>& vector_of_a
 	string password1, password2;
 	while (flag == false)
 	{
-		cout << "Enter login (max size is 17): ";
-		inputLine(account_temp.login, 17);
+		cout << ENTER_LOGIN;
+		inputLine(account_temp.login, LOGIN_SIZE);
 		flag = isLoginUnique(account_temp, vector_of_accaunts);   // проверяем логин на уникальность
-		cout << "Enter password: ";
-		inputLine(password1, 20);
-		cout << "Enter it again: ";
-		inputLine(password2, 20);
+		cout << ENTER_PASSWORD;
+		inputLine(password1, PASSWORD_SIZE);
+		cout << ENTER_PASSWORD_AGAIN;
+		inputLine(password2, PASSWORD_SIZE);
 		flag = isPasswordSuitable(account_temp, password1, password2);  // проверяем что пароли совпадают и соответсвуют нашим стандартам (X, 1 и более 5 символов)
 		if (flag == false)
 		{
 			pause();
 			clearConsole();
-			cout << endl << "Incorrect input. Please try again" << endl;
-			cout << endl << "If you want go back press 0" << endl;;
+			cout << endl << INCORRECT_INPUT << endl;
 			approve = _getch();
 			clearConsole();
 			account_temp.password.clear();
@@ -239,15 +222,14 @@ void logIn(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_w
 	for (int i = 0; i < 3; i++)
 	{
 		clearConsole();
-		cout << "Enter login: ";
-		inputLine(account_temp.login, 17);
-		cout << "Enter password: ";
+		cout << ENTER_LOGIN;
+		inputLine(account_temp.login, LOGIN_SIZE);
+		cout << ENTER_PASSWORD;
 		hideInput(account_temp); // скрытый ввод пароля со *
 		if (compareInputData(account_temp, vector_of_accaunts) == true) // проверка при авторизации на правильность лгина и пароля 
 		{
 			clearConsole();
-			cout << "Log in completed !!!" << endl;
-			pause();
+			cout << LOG_IN_COMPLETED << endl;
 			enterMenu(account_temp, vector_of_accaunts, vector_of_works);
 			break;
 		}
@@ -255,11 +237,12 @@ void logIn(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_w
 		{
 			if (i + 1 == 3)
 			{
-				cout << "The limit of attempts has been exceeded!!!" << endl;
+				cout << LIMIT_OF_ATTEMPTS << endl;
+				pause();
+				clearConsole();
 				return;
 			}
-			cout << endl << "Incorrect input. Please try again" << endl;
-			cout << endl << "If you want go back press 0" << endl;;
+			cout << endl << INCORRECT_INPUT << endl;
 			back = _getch();
 			account_temp.password.clear();
 			clearConsole();
@@ -270,22 +253,28 @@ void logIn(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_w
 }
 void enterMenu(Account account_temp, vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works)
 {
-	if (account_temp.status == 0)
+	if (account_temp.status == UNACTIVATED_ACCOUNT)
 	{
-		cout << "Wait for the confirmation of registration" << endl;
+		cout << WAIT_FOR_CONFORMITION << endl;
 		pause();
 		clearConsole();
 	}
-	if (account_temp.status == 2)
+	if (account_temp.status == BLOCKED_ACCOUNT)
 	{
-		cout << "Your account is temporarily blocked" << endl;
+		cout << ACCOUNT_BLOCKED << endl;
 		pause();
 		clearConsole();
 	}
-	if (account_temp.status == 1 && (account_temp.role == 2 || account_temp.role == 3))
+	if (account_temp.status == ACTIVATED_ACCOUNT && (account_temp.role == ADMIN || account_temp.role == HEAD_ADMIN))
+	{
+		pause();
 		menuForAdmin(vector_of_accaunts, vector_of_works, account_temp.login);
-	if (account_temp.status == 1 && account_temp.role == 1)
+	}
+	if (account_temp.status == ACTIVATED_ACCOUNT && account_temp.role == USER)
+	{
+		pause();
 		menuForUser(vector_of_accaunts, vector_of_works, account_temp.login);
+	}
 }
 void hideInput(Account& account_temp)
 {

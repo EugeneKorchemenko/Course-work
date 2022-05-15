@@ -17,6 +17,7 @@ bool compareInputData(Account& account_temp, vector <Account>& vector_of_accaunt
 
 //проверка не задействован ли сотрудник на одном и том же ваиде работ на проекте
 bool chekIfEmployeeDoSameWorkOnProject(TypeOfWork work_temp, vector<TypeOfWork> vector_of_works);
+bool chekIfEmployeeDoSameWorkOnProject(vector<TypeOfWork> vector_of_works, int m);
 //ввод с проверкой строки на корректность
 void inputLine(string& string, int SIZE);
 

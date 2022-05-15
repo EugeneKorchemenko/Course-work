@@ -7,13 +7,13 @@ void showProjectVector(vector <TypeOfWork>& vector_of_works)
 		return;
 	sortProjectByTypeOfWork(vector_of_works);
 	int cost = 0, employees = 0, ammount_of_projects = 0, *pointer_ammount_of_projects = &ammount_of_projects;
-	cout << "--------------------------------------------------------------------------" << endl;
+	cout << LINE_75 << endl;
 	for (int i = 0, first = 0; i < vector_of_works.size(); i++, first++) // first - индекс первого типа работ в проекте
 	{
 		if (i == 0 || vector_of_works.at(i).project_name != vector_of_works.at(i - 1).project_name)
 		{
 			cout << setw(74) << "|" << endl << "Project: " << vector_of_works.at(i).project_name << setw(65 - vector_of_works.at(i).project_name.size()) << "|" << endl << setw(74) << "|" << endl;
-			cout << "--------------------------------------------------------------------------" << endl;
+			cout << LINE_75 << endl;
 			cout << "| TYPE OF WORK | SURNAME OF THE EMPLOYEE | HOURS | COST/HOUR" << setw(16) << "| \n";
 			*pointer_ammount_of_projects += 1;
 		}
@@ -31,12 +31,14 @@ void showProjectVector(vector <TypeOfWork>& vector_of_works)
 	}
 	if (ammount_of_projects > 1)
 		sortProjects(vector_of_works);
+	else
+		pause();
 }
 void showInfoAboutAllTypesOfWork(vector<TypeOfWork> vector_of_works, int& cost, int& employees, int& first, int i)
 {
-	cout << "--------------------------------------------------------------------------" << endl;
+	cout << LINE_75 << endl;
 	cout << "| Cost of project: " << cost << setw(55 - num(cost)) << "|" << endl;
-	cout << "--------------------------------------------------------------------------" << endl;
+	cout << LINE_75 << endl;
 	calculateTypeOfWork(vector_of_works, cost, employees, first, i, "Requirements");
 	if (employees != 0)
 	{
@@ -69,7 +71,7 @@ void showInfoAboutAllTypesOfWork(vector<TypeOfWork> vector_of_works, int& cost, 
 		cout << "Number of employees involved: ";
 		cout << setw(4 - num(employees)) << employees << "|" << endl;
 	}
-	cout << "--------------------------------------------------------------------------" << endl;
+	cout << LINE_75 << endl;
 	cost = 0;
 	employees = 0;
 }
@@ -124,28 +126,44 @@ void showPersonalInformationAboutEmployee(vector<TypeOfWork>& search)
 {
 	sortProjectByTypeOfWork(search);
 	int cost = 0, hours = 0;
-	cout << "-----------------------------------------------------" << endl;
-	cout << endl << "Employee: " << search.at(0).FIO << endl << endl;
-	cout << "-----------------------------------------------------" << endl;
-	cout << "|      PROJECT      | TYPE OF WORK | HOURS | COST/HOUR|\n";
+	cout << LINE_57 << endl;
+	cout << setw(56) << "|" << endl << "Employee: " << search.at(0).FIO << setw(46 - search.at(0).FIO.size()) << "|" << endl << setw(56) << "|" << endl;
+	cout << LINE_57 << endl;
+	cout << "|      PROJECT      | TYPE OF WORK | HOURS | COST/HOUR |\n";
 	for (int i = 0; i < search.size(); i++)
 	{
 		cost += search.at(i).ammount_of_hours * search.at(i).cost_per_hour;
 		hours += search.at(i).ammount_of_hours;
-		cout << "|" << search.at(i).project_name << setw(19 - search.at(i).project_name.size())
+		cout << "|" << search.at(i).project_name << setw(20 - search.at(i).project_name.size())
 			<< "|" << search.at(i).name << setw(15 - search.at(i).name.size())
 			<< "|" << search.at(i).ammount_of_hours << setw(8 - num(search.at(i).ammount_of_hours))
-			<< "|" << search.at(i).cost_per_hour << '\t' << "    |" << endl;
+			<< "|" << search.at(i).cost_per_hour <<"         |" << endl;
 		search.at(i).cost_of_type_of_work = search.at(i).ammount_of_hours * search.at(i).cost_per_hour;
-		if (i + 1 == search.size() /*|| search.at(i).project_name != search.at(i + 1).project_name*/)
+		if (i + 1 == search.size())
 			showInfoAboutAllProjects(search, cost, hours, i);
 	}
 }
+void showPersonalInformationAboutEmployee(TypeOfWork edit)
+{
+	int cost = 0, hours = 0;
+	cout << "Employee: " << edit.FIO << endl;
+	cout << LINE_57 << endl;
+	cout << "|      PROJECT      | TYPE OF WORK | HOURS | COST/HOUR |\n";
+	cout << LINE_57 << endl;
+	cost += edit.ammount_of_hours * edit.cost_per_hour;
+	hours += edit.ammount_of_hours;
+	cout << "|" << edit.project_name << setw(20 - edit.project_name.size())
+		<< "|" << edit.name << setw(15 - edit.name.size())
+		<< "|" << edit.ammount_of_hours << setw(8 - num(edit.ammount_of_hours))
+		<< "|" << edit.cost_per_hour << "         |" << endl;
+	edit.cost_of_type_of_work = edit.ammount_of_hours * edit.cost_per_hour;
+	cout << LINE_57 << endl;
+}
 void showInfoAboutAllProjects(vector<TypeOfWork> search, int& cost, int& hours, int i)
 {
-	cout << "-----------------------------------------------------" << endl;
-	cout << " Hours: " << hours << "\tEarnings: " << cost << endl;
-	cout << "-----------------------------------------------------" << endl;
+	cout << LINE_57 << endl;
+	cout << "|Hours: " << hours << "\tEarnings: " << cost << setw(30 - num(cost)) << "|" << endl;
+	cout << LINE_57 << endl;
 	// выводим более детальную информацию если сатрудник работает на нескольких проектах
 	if (search.size() != 1)
 	{
@@ -154,14 +172,14 @@ void showInfoAboutAllProjects(vector<TypeOfWork> search, int& cost, int& hours, 
 			if (i + 1 == search.size() || search.at(i).project_name != search.at(i + 1).project_name)
 			{
 				calculateProject(search, cost, hours, first, i, search.at(i).project_name);
-				cout << " Project: " << search.at(i).project_name << "\t";
-				cout << "Hours: " << hours << "\t";
-				cout << "Earnings: " << cost << endl;
+				cout << "|Project: " << search.at(i).project_name << setw(19 - search.at(i).project_name.size());
+				cout << "Hours: " << hours << setw(15 - num(hours));
+				cout << "Earnings: " << cost << setw(12 - num(cost)) << "|" << endl;
 			}
 			else
 				first--;
 		}
-		cout << "-----------------------------------------------------" << endl;
+		cout << LINE_57 << endl;
 	}
 	cost = 0;
 	hours = 0;
@@ -199,17 +217,16 @@ void showListOfAccounts(vector <Account>& vector_of_accaunts)
 	if (vector_of_accaunts.size() != 0)
 	{
 		clearConsole();
-		//header
-		cout << "-----------------------------------------" << endl;
+		cout << LINE_42 << endl;
 		cout << "| # |      LOGIN      | ROLE |  STATUS  |" << endl;
-		cout << "-----------------------------------------" << endl;
+		cout << LINE_42 << endl;
 		for (int i = 0; i < vector_of_accaunts.size(); i++)
 		{
 			cout << "|" << i + 1 << setw(4 - num(i)) << "|" << vector_of_accaunts.at(i).login << setw(18 - vector_of_accaunts.at(i).login.size()) <<
 				"|" << getRole(vector_of_accaunts.at(i).role) << /*setw(8 - size) <<*/
 				"|" << getStatus(vector_of_accaunts.at(i).status) /*<< setw(11 - size)*/ << "|" << endl;
 		}
-		cout << "-----------------------------------------" << endl;
+		cout << LINE_42 << endl;
 	}
 }
 string getStatus(int status)

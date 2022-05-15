@@ -19,7 +19,7 @@ int input(int min, int max)
 		{
 			cin.clear(); // сбрасывает флаги ошибок.Если возникает ошибка, устанавливается флаг ошибки, и будущие попытки получить ввод не удастся
 			cin.ignore((numeric_limits<streamsize>::max)(), '\n'); // игнорирует (очищает) ввод '\n' устанавливает разделитель, то есть символ, после которого cin перестает игнорировать numeric_limits<streamsize>::max() устанавливает максимальное количество символов для игнорирования 
-			cout << "\nIncorrect input\n\n";
+			cout << "Incorrect input" << endl;
 		}
 	}
 	return number;
@@ -36,7 +36,7 @@ int input()
 		{
 			cin.clear(); // сбрасывает флаги ошибок.Если возникает ошибка, устанавливается флаг ошибки, и будущие попытки получить ввод не удастся
 			cin.ignore((numeric_limits<streamsize>::max)(), '\n'); // игнорирует (очищает) ввод '\n' устанавливает разделитель, то есть символ, после которого cin перестает игнорировать numeric_limits<streamsize>::max() устанавливает максимальное количество символов для игнорирования 
-			cout << "\nIncorrect input\n\n";
+			cout << "Incorrect input" << endl;
 		}
 	}
 	return number;
@@ -120,13 +120,27 @@ bool chekIfEmployeeDoSameWorkOnProject(TypeOfWork work_temp, vector<TypeOfWork> 
 	{
 		if (work_temp.FIO == vector_of_works.at(j).FIO && work_temp.name == vector_of_works.at(j).name && work_temp.project_name == vector_of_works.at(j).project_name)
 		{
-			cout << endl << "This employee has already involved in this type of work in this project. Try again" << endl << endl;
-			return false;
+			cout << endl << "This employee has already involved in this type of work in this project. Try again" << endl;
+			return true;
 		}
 		j++;
 	}
-	return true;
+	return false;
 }
+bool chekIfEmployeeDoSameWorkOnProject(vector<TypeOfWork> vector_of_works, int m)
+{
+	for (int i = 0; i < vector_of_works.size(); i++)
+	{
+		if (vector_of_works.at(i).FIO == vector_of_works.at(m).FIO && vector_of_works.at(i).name == vector_of_works.at(m).name && vector_of_works.at(i).project_name == vector_of_works.at(m).project_name)
+		{
+			cout << vector_of_works.at(m).FIO << " has already included in this stage of the project" << endl;
+			pause();
+			return true;
+		}
+	}
+	return false;
+}
+
 void inputLine(string& string, int size) // login fio 
 {
 	int i = 0, approve;
@@ -158,15 +172,17 @@ void inputLine(string& string, int size) // login fio
 				i--;
 				continue;
 			}
-			if (temp >= 'A' && temp <= 'z' && temp >= '0' && temp <= '9')
+			if ((temp <= '0' || temp >= '9') && (temp < 'A' || temp > 'z') || temp == 94)
 				continue;
-				if (temp >= '0' && temp <= '9' && size != 17 && size != 20) // запрет на ввод цивр везде кроме логина и пароля
-					continue;
+			if (temp >= '0' && temp <= '9' && (size != 17 && size != 20)) // запрет на ввод цивр везде кроме логина и пароля
+				continue;
 			string.push_back(temp);
 			cout << temp;
 			i++;
 			continue;
 		}
+		if (temp == '\r' && string.empty())
+			continue;
 		cout << endl;
 		return;
 	}
@@ -181,11 +197,4 @@ bool printFileIsEmpty(vector<TypeOfWork>& vector_of_works)
 		clearConsole();
 		return true;
 	}
-}
-void printOutofRangeInMenu(int NUMBER_OF_POINTS)
-{
-	clearConsole();
-	cout << "Enter value between 0 and "<< NUMBER_OF_POINTS << endl;
-	pause();
-	clearConsole();
 }

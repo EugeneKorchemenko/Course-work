@@ -4,17 +4,17 @@ void generateProjectsVector(vector<TypeOfWork>& vector_of_works)
 {
 	int choice, size = 0;
 	clearConsole();
-	cout << "Enter how many projects do you want to add" << endl;
+	cout << ADD_PROJECTS;
 	choice = input();
 	string name;
 	vector_of_works.resize(0);
 	for (int i = 0; i < choice; i++)
 	{
-		cout << "Enter name of the project (max size is 18):" << endl;
-		inputLine(name, 18);
-		cout << "Enter how many employees include into project" << endl;
+		cout << ENTER_NAME_OF_PROJECT;
+		inputLine(name, PROJECT_SIZE);
+		cout << endl << HOW_MANY_EMPLOYEES;
 		int em;
-		em = input(1, 100);
+		em = input(1, 10);
 		vector_of_works.resize(vector_of_works.size() + em);
 		for (int m = size; m < vector_of_works.size(); m++)
 		{
@@ -27,19 +27,27 @@ void generateProjectsVector(vector<TypeOfWork>& vector_of_works)
 }
 void inputInformation(vector<TypeOfWork>& vector_of_works, int m)
 {
-	chooseWorkName(vector_of_works, m);
-	cout << "Enter FIO of employee (max size is 25)" << endl;
-	inputLine(vector_of_works.at(m).FIO,25);
-	cout << "Enter ammount of hours" << endl;
-	vector_of_works.at(m).ammount_of_hours = input(1, 999);
-	cout << "Enter " << vector_of_works.at(m).FIO << "'s hourly cost" << endl;
-	vector_of_works.at(m).cost_per_hour = input(1, 999);
+	while (1)
+	{
+		chooseWorkName(vector_of_works, m);
+		cout << ENTER_SURNAME;
+		inputLine(vector_of_works.at(m).FIO, SURNAME_SIZE);
+		if (chekIfEmployeeDoSameWorkOnProject(vector_of_works, m))
+		{
+			continue;
+			clearConsole();
+		}
+		cout << endl << ENTER_HOURS;
+		vector_of_works.at(m).ammount_of_hours = input(1, MAX_HOURS);
+		cout << "Enter " << vector_of_works.at(m).FIO << "'s hourly cost: ";
+		vector_of_works.at(m).cost_per_hour = input(1, MAX_COST_OF_HOUR);
+		break;
+	}
 }
 void chooseWorkName(vector<TypeOfWork>& vector_of_works, int m)
 {
 	int n = 10;
-	cout << "Choose type of work" << endl;
-	cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
+	cout << CHOOSE_TYPE_OF_WORK << endl;
 	n = input(1, 4);
 	switch (n)
 	{
@@ -75,15 +83,15 @@ void addProjectsInVector(vector<TypeOfWork>& vector_of_works)
 	clearConsole();
 	if (printFileIsEmpty(vector_of_works))
 		return;
-	cout << "Enter how many projects you want to add" << endl;
+	cout << ADD_PROJECTS;
 	int choice;
 	choice = input();
 	string name;
 	for (int i = 0, employees = 0; i < choice; i++)
 	{
-		cout << "Enter name of the project: (max size is 18)" << endl;
-		inputLine(name, 18);
-		cout << "Enter how many employees include into project" << endl;
+		cout << ENTER_NAME_OF_PROJECT;
+		inputLine(name, PROJECT_SIZE);
+		cout << HOW_MANY_EMPLOYEES;
 		employees = input(1, 100);
 		for (int m = 0; m < employees; m++)
 		{
@@ -99,23 +107,24 @@ void inputInformation(TypeOfWork& work_temp, string name, vector<TypeOfWork> vec
 	{
 		work_temp.project_name = name;
 		chooseWorkName(work_temp);
-		cout << "Enter FIO of employee (max size is 25)" << endl;
-		inputLine(work_temp.FIO, 25);
-		cout << "Enter ammount of hours" << endl;
-		work_temp.ammount_of_hours = input(1, 999);
-		cout << "Enter " << work_temp.FIO << "'s hourly cost" << endl;
-		work_temp.cost_per_hour = input(1, 999);
+		cout << ENTER_SURNAME;
+		inputLine(work_temp.FIO, SURNAME_SIZE);
 		if (chekIfEmployeeDoSameWorkOnProject(work_temp, vector_of_works))
-			break;
-		else
+		{
 			continue;
+			clearConsole();
+		}
+		cout << ENTER_HOURS;
+		work_temp.ammount_of_hours = input(1, MAX_HOURS);
+		cout << "Enter " << work_temp.FIO << "'s hourly cost: ";
+		work_temp.cost_per_hour = input(1, MAX_COST_OF_HOUR);
+		break;
 	}
 }
 void chooseWorkName(TypeOfWork& work)
 {
 	int n = 10;
-	cout << "Choose type of work" << endl;
-	cout << "1)Work on requirements\n2)Development\n3)Implementation\n4)Testing" << endl;
+	cout << CHOOSE_TYPE_OF_WORK << endl;
 	n = input(1, 4);
 	switch (n)
 	{

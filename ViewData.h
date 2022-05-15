@@ -22,6 +22,7 @@ bool compareByPriorityOfTypeOfWork(const TypeOfWork& first, const TypeOfWork& se
 void calculateTypeOfWork(vector<TypeOfWork> vector_of_works, int& cost, int& employees, int& r, int i, string type_of_work);
 // функция для вывода и подсчёта информации об сотруднике
 void showPersonalInformationAboutEmployee(vector<TypeOfWork>& search);
+void showPersonalInformationAboutEmployee(TypeOfWork edit);
 void showInfoAboutAllProjects(vector<TypeOfWork> search, int& cost, int& hours, int i);
 void calculateProject(vector<TypeOfWork> search, int& cost, int& hours, int& r, int i, string project_name);
 

@@ -2,14 +2,12 @@
 
 void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login)
 {
-	/*vector_of_works.resize(getCountOfTypesOfWorkInFile(FILE_DATA));
-	doesFileExist(vector_of_works, 1);*/
 	int choice = 10;
 	while (choice != 0)
 	{
 		clearConsole();
-		cout << "\tMode: Admin" << endl;
-		cout << "Choose:\n1 Work with data\n2 Work with accounts\n0 Exit" << endl;
+		cout << ADMIN_MODE << endl;
+		cout << MENU_ADMIN << endl;
 		choice = input(0, 2);
 		switch (choice)
 		{
@@ -17,11 +15,7 @@ void menuForAdmin(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vec
 			break;
 		case 2: workWithAcccounts(vector_of_accaunts, vector_of_works, login);
 			break;
-		case 0:/*
-		{
-			clearConsole();
-			return;
-		}*/
+		case 0:
 			break;
 		}
 	}
@@ -33,8 +27,7 @@ void workWithAcccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>
 	while (choice != 0)
 	{
 		clearConsole();
-		cout << "\t________MENU_______" << endl;
-		cout << "1 Show list of accounts\n2 Show outgoing registration applications\n3 Edit accounts\n4 Change password\n0 Exit" << endl;
+		cout << MENU_ACCONTS << endl;
 		choice = input(0, 4);
 		switch (choice)
 		{
@@ -57,8 +50,7 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 	while (choice != 0)
 	{
 		clearConsole();
-		cout << "\t________MENU_______" << endl;
-		cout << "1 Show information about projects\n2 Add new project\n3 Edit project\n4 Search by projects\n5 Delete project\n0 Exit" << endl;
+		cout << MENU_DATA << endl;
 		choice = input(0, 5);
 		switch (choice)
 		{
@@ -67,8 +59,7 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 		case 2:
 		{
 			clearConsole();
-			cout << "\t______CHOOSE______" << endl;
-			cout << "1 Add project\n2 Add project with delete\n0 Exit" << endl;
+			cout << ADD_REWRITE << endl;
 			choice = input(0, 2);
 			switch (choice)
 			{
@@ -76,8 +67,8 @@ void workWithData(vector <TypeOfWork>& vector_of_works)
 				break;
 			case 2:
 			{
-				cout << "Are you shure? It will destroy all data wich was in file.\n1 YES\n2 NO" << endl;
-				choice = input();
+				cout << SURE_DESTROY << endl;
+				choice = input(1, 2);
 				if (choice == 2)
 					break;
 				else

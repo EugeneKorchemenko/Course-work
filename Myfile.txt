@@ -1,11 +1,12 @@
 MG	Development	Snake	559	51
 MG	Testing	Muller	78	15
-Marvel	Development	Spider	72	45
 Marvel	Development	Strange	325	26
+Marvel	Implementation	Spider	222	23
 Marvel	Implementation	Halk	210	25
+Marvel	Testing	Iron_Man	456	132
 DC	Requirements	Batman	225	50
 DC	Development	Superman	250	15
 DC	Implementation	Robin	40	12
 Gorillaz	Requirements	Murdok	125	33
 Gorillaz	Development	Ace	266	14
-Physics	Development	Andrianova	72	300
+Physics	Implementation	Leone	218	300

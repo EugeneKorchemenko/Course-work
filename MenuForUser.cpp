@@ -6,10 +6,8 @@ void menuForUser(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vecto
 	while (n != 0)
 	{
 		clearConsole();
-		cout << "\tMode: User" << endl;
-		cout << "\t________MENU_______" << endl;
-		cout << "1 Show information about projects\n2 Search by projects\n3 Change password\n0 Exit" << endl;
-		n = input();
+		cout << MENU_USER << endl;
+		n = input(0, 3);
 		switch (n)
 		{
 		case 1: showProjectVector(vector_of_works);
@@ -19,8 +17,7 @@ void menuForUser(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vecto
 		case 3: changePassword(vector_of_accaunts, login);
 			break;
 		case 0: break;
-		default:printOutofRangeInMenu(3);
 		}
 	}
-	//clearConsole();
+	clearConsole();
 }

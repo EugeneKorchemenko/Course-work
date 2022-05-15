@@ -5,9 +5,7 @@ void sortProjects(vector<TypeOfWork> vector_of_works)
 	vector <Project> vector_of_projects;
 	vector <TypeOfWork> sorted;
 	int choice;
-	cout << "\t\t________SORT________" << endl;
-	cout << "Choose how you want to sort projects:" << endl;
-	cout << "1 By project's cost\n2 By ammount of employees\n3 By name\n0 Exit view" << endl;
+	cout << SORT_PROJECTS << endl;
 	choice = input(0, 3);
 	switch (choice)
 	{
@@ -25,7 +23,7 @@ void sortProjectsByCost(vector<TypeOfWork>& sorted, vector <Project>& vector_of_
 {
 	int choice;
 	clearConsole();
-	cout << "Choose how you wnat to sort projects\n1)By cost ascending\n2)By cost descending" << endl;
+	cout << ASCENDING_OR_DESCENDING << endl;
 	choice = input(1, 2);
 	countCostOfProjects(vector_of_projects, vector_of_works);
 	if (choice == 1)
@@ -77,7 +75,7 @@ void sortProjectsByAmmountOfEmployees(vector<TypeOfWork>& sorted, vector <Projec
 {
 	int choice;
 	clearConsole();
-	cout << "Choose how do you wnat to sort projects\n1)By ascending of number of employees\n2)By descending of number of employees" << endl;
+	cout << ASCENDING_OR_DESCENDING << endl;
 	choice = input(1, 2);
 	countAmmountOfEmployees(vector_of_projects, vector_of_works);
 	if (choice == 1)
@@ -117,7 +115,7 @@ void sortProjectsByName(vector<TypeOfWork>& sorted, vector <TypeOfWork> vector_o
 {
 	int choice;
 	clearConsole();
-	cout << "Choose how you wnat to sort projects\n1)By A-Z\n2)By Z-A" << endl;
+	cout << A_TO_Z_OR_Z_TO_A << endl;
 	choice = input(1, 2);
 	for (int i = 0; i < vector_of_works.size(); i++)
 		sorted.push_back(vector_of_works.at(i));
@@ -142,8 +140,7 @@ void sortAccounts(vector <Account> vector_of_accaunts)
 	int choice = 10;
 	while (choice != 0)
 	{
-		cout << "\t\t________SORT________" << endl;
-		cout << "Choose how you want to sort accounts:\n1 By login\n2 By Role\n3 By status\n0 Exit view" << endl;
+		cout << SORT_ACCOUNTS << endl;
 		choice = input(0, 3);
 		switch (choice)
 		{
@@ -162,7 +159,7 @@ void sortAccountByLogin(vector <Account> vector_of_accaunts)
 {
 	int choice;
 	clearConsole();
-	cout << "Choose how you wnat to sort logins\n1)By A-Z\n2)By Z-A" << endl;
+	cout << A_TO_Z_OR_Z_TO_A << endl;
 	choice = input(1, 2);
 	if (choice == 1)
 		sort(vector_of_accaunts.begin(), vector_of_accaunts.end(), compareByLoginAscending);
@@ -170,7 +167,6 @@ void sortAccountByLogin(vector <Account> vector_of_accaunts)
 		sort(vector_of_accaunts.begin(), vector_of_accaunts.end(), compareByLoginDescending);
 	clearConsole();
 	showListOfAccounts(vector_of_accaunts);
-	//sortAccounts(vector_of_accaunts);
 }
 bool compareByLoginAscending(const Account& first, const Account& second)
 {
