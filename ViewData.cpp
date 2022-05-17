@@ -238,7 +238,7 @@ string getStatus(int status)
 		break;
 	case 1: s = "Activated ";
 		break;
-	case 2: s = "Blockeded ";
+	case 2: s = "Blocked ";
 		break;
 	}
 	return s;

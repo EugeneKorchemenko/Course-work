@@ -5,13 +5,18 @@ void generateProjectsVector(vector<TypeOfWork>& vector_of_works)
 	int choice, size = 0;
 	clearConsole();
 	cout << ADD_PROJECTS;
-	choice = input();
+	choice = input(0, 10);
 	string name;
 	vector_of_works.resize(0);
 	for (int i = 0; i < choice; i++)
 	{
 		cout << ENTER_NAME_OF_PROJECT;
 		inputLine(name, PROJECT_SIZE);
+		if (!isNameOfProjectUnique(vector_of_works, name))
+		{
+			i--;
+			continue;
+		}
 		cout << endl << HOW_MANY_EMPLOYEES;
 		int em;
 		em = input(1, 10);
@@ -34,8 +39,8 @@ void inputInformation(vector<TypeOfWork>& vector_of_works, int m)
 		inputLine(vector_of_works.at(m).FIO, SURNAME_SIZE);
 		if (chekIfEmployeeDoSameWorkOnProject(vector_of_works, m))
 		{
-			continue;
 			clearConsole();
+			continue;
 		}
 		cout << endl << ENTER_HOURS;
 		vector_of_works.at(m).ammount_of_hours = input(1, MAX_HOURS);
@@ -85,12 +90,17 @@ void addProjectsInVector(vector<TypeOfWork>& vector_of_works)
 		return;
 	cout << ADD_PROJECTS;
 	int choice;
-	choice = input();
+	choice = input(0, 10);
 	string name;
 	for (int i = 0, employees = 0; i < choice; i++)
 	{
 		cout << ENTER_NAME_OF_PROJECT;
 		inputLine(name, PROJECT_SIZE);
+		if (!isNameOfProjectUnique(vector_of_works, name))
+		{
+			i--;
+			continue;
+		}
 		cout << HOW_MANY_EMPLOYEES;
 		employees = input(1, 100);
 		for (int m = 0; m < employees; m++)

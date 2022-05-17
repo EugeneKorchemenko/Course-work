@@ -4,7 +4,7 @@
 #include "Structs.h"
 #include "Constants.h"
 #include "Interfaces.h"
-#include "MenuForAdmin.h"//doesFileExist getCountOfTypesOfWorkInFile
+#include "MenuForAdmin.h"
 #include "ViewData.h"
 #include "Sort.h"
 

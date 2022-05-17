@@ -33,6 +33,7 @@ void blockAccount(vector <Account>& vector_of_accaunts, string login);
 void unlockAccount(vector <Account>& vector_of_accaunts);
 void changeRole(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login);
 int chooseAccount(vector <Account>& vector_of_accaunts);
+void changePassword(vector <Account>& vector_of_accaunts);
 void changePassword(vector <Account>& vector_of_accaunts, string login);
 bool inputNewPassword(vector <Account>& vector_of_accaunts, Account& account_temp, string& password1, string& password2);
 // подтвердить за€вки на добавление аккаунтов

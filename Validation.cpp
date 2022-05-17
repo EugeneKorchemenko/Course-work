@@ -91,6 +91,18 @@ bool isPasswordSuitable(Account& account_temp, string password1, string password
 	else
 		return true;
 }
+bool isNameOfProjectUnique(vector<TypeOfWork> vector_of_works, string name)
+{
+	for (int i = 0; i < vector_of_works.size(); i++)
+	{
+		if (name == vector_of_works.at(i).project_name)
+		{
+			cout << "Project with the same name has already exist. Input another one." << endl;
+			return false;
+		}
+	}
+	return true;
+}
 bool compareInputData(Account& account_temp, vector <Account>& vector_of_accaunts)
 {
 	int i = 0;
@@ -131,7 +143,7 @@ bool chekIfEmployeeDoSameWorkOnProject(vector<TypeOfWork> vector_of_works, int m
 {
 	for (int i = 0; i < vector_of_works.size(); i++)
 	{
-		if (vector_of_works.at(i).FIO == vector_of_works.at(m).FIO && vector_of_works.at(i).name == vector_of_works.at(m).name && vector_of_works.at(i).project_name == vector_of_works.at(m).project_name)
+		if (m != i && vector_of_works.at(i).FIO == vector_of_works.at(m).FIO && vector_of_works.at(i).name == vector_of_works.at(m).name && vector_of_works.at(i).project_name == vector_of_works.at(m).project_name)
 		{
 			cout << vector_of_works.at(m).FIO << " has already included in this stage of the project" << endl;
 			pause();

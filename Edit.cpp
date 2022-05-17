@@ -260,7 +260,8 @@ void delProjectFromVector(vector<TypeOfWork>& vector_of_works)
 			}
 		}
 		writeFileProjects(vector_of_works);
-	cout << DELITION << endl;
+		clearConsole();
+		cout << DELITION << endl;
 	}
 	pause();
 	clearConsole();
@@ -268,7 +269,7 @@ void delProjectFromVector(vector<TypeOfWork>& vector_of_works)
 
 void editAccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vector_of_works, string login)
 {
-	int choice, ed = 10;
+	int ed = 10;
 	while (ed != 0)
 	{
 		clearConsole();
@@ -288,11 +289,7 @@ void editAccounts(vector <Account>& vector_of_accaunts, vector <TypeOfWork>& vec
 			break;
 		case 5: changeRole(vector_of_accaunts, vector_of_works, login);
 			break;
-		case 6: 
-		{
-			choice = chooseAccount(vector_of_accaunts);
-			changePassword(vector_of_accaunts, vector_of_accaunts.at(choice).login);
-		}
+		case 6: changePassword(vector_of_accaunts);
 		case 0:
 			break;
 		}
@@ -317,11 +314,16 @@ void deleteAccount(vector <Account>& vector_of_accaunts, string login)
 			clearConsole();
 			return;
 		}
+		if (vector_of_accaunts.at(choice).login == login) // если удаляем свой аккаунт выходим в меню
+		{
+			vector_of_accaunts.erase(vector_of_accaunts.cbegin() + choice);
+			writeFileAccounts(vector_of_accaunts);
+			clearConsole();
+			autorisatie();
+		}
 		vector_of_accaunts.erase(vector_of_accaunts.cbegin() + choice);
 		writeFileAccounts(vector_of_accaunts);
 		clearConsole();
-		if (vector_of_accaunts.at(choice).login == login) // если удаляем свой аккаунт выходим в меню
-			autorisatie();
 	}
 }
 void blockAccount(vector <Account>& vector_of_accaunts, string login)
@@ -372,7 +374,7 @@ void unlockAccount(vector <Account>& vector_of_accaunts)
 	choice = chooseAccount(vector_of_accaunts);
 	if (choice == -1)
 		return;
-	if (vector_of_accaunts.at(choice).status == BLOCKED_ACCOUNT)
+	if (vector_of_accaunts.at(choice).status == UNACTIVATED_ACCOUNT)
 	{
 		cout << "You have to activate this account first" << endl;
 		pause();
@@ -438,17 +440,57 @@ int chooseAccount(vector <Account>& vector_of_accaunts)
 	choice = input(0, vector_of_accaunts.size());
 	if (choice == 0)
 		return -1;
+	return choice - 1;
+}
+void changePassword(vector <Account>& vector_of_accaunts)
+{
+	Account account_temp;
+	string password1, password2, login;
+	int choice;
+	char approve;
+	clearConsole();
+	choice = chooseAccount(vector_of_accaunts);
+	login = vector_of_accaunts.at(choice).login;
 	if (vector_of_accaunts.at(choice).role == HEAD_ADMIN)
 	{
 		cout << "You can't change password of head admin" << endl;
-		return -1;
+		pause();
+		return;
 	}
-	return choice - 1;
+	account_temp.login = login;
+	cout << SURE << endl;
+	approve = input(1, 2);
+	clearConsole();
+	if (approve == 1)
+	{
+		if (!inputNewPassword(vector_of_accaunts, account_temp, password1, password2))// если возращает false выходим из функции
+			return;
+		cout << "Are you sure you want to change password?\nChoose:\t1 YES\t2 NO" << endl;
+		approve = input(1, 2);
+		if (approve == 1)
+		{
+			account_temp.password = password1;
+			for (int i = 0; i < vector_of_accaunts.size(); i++)
+			{
+				if (account_temp.login == vector_of_accaunts.at(i).login)
+				{
+					vector_of_accaunts.at(i).hash_password_with_salt = sha256(sha256(account_temp.password + account_temp.salt) + sha256(account_temp.password));
+					writeFileAccounts(vector_of_accaunts);
+					clearConsole();
+					cout << "Password has been chaanged successfully" << endl;
+					pause();
+				}
+			}
+		}
+		else
+			return;
+	}
 }
 void changePassword(vector <Account>& vector_of_accaunts, string login)
 {
 	Account account_temp;
 	string password1, password2;
+	int choice;
 	char approve;
 	clearConsole();
 	account_temp.login = login;
@@ -471,7 +513,7 @@ void changePassword(vector <Account>& vector_of_accaunts, string login)
 					vector_of_accaunts.at(i).hash_password_with_salt = sha256(sha256(account_temp.password + account_temp.salt) + sha256(account_temp.password));
 					writeFileAccounts(vector_of_accaunts);
 					clearConsole();
-					cout << "Password has been chaanged successfully" << endl;
+					cout << "Password has been changed successfully" << endl;
 					pause();
 				}
 			}
@@ -519,14 +561,13 @@ bool inputNewPassword(vector <Account>& vector_of_accaunts, Account& account_tem
 		}
 		else
 		{
-			cout << "Incorrect  input. This password does not match the current " << endl;
-			cout << endl << "If you want go back press 0" << endl;
+			cout << endl << "Incorrect  input. This password does not match the current " << endl;
+			cout << "If you want go back press 0, else press another key" << endl;
 			approve = _getch();
 			clearConsole();
+			account_temp.password.clear();
 			if (approve == '0')
 				return false;
-			else
-				continue;
 		}
 		attempts++; // количество попыток
 	}
@@ -566,6 +607,7 @@ void approveAllApplications(vector <Account>& vector_unverified_accounts, vector
 				vector_unverified_accounts.clear();
 			}
 		}
+		writeFileAccounts(vector_of_accaunts); // сохраняем измененив файл
 	}
 	clearConsole();
 }

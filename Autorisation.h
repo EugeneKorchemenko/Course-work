@@ -14,22 +14,31 @@
 using namespace std;
 
 void autorisatie();
-//чтение акквунтов из файла
+// Чтение аккаунтов из файла
 void readAccountsBase(vector<Account>& vector_of_accaunts);
 int getCountOfAccounts(string file_path);
-//чтение данных о проекте из файла
-void doesFileExist(vector <TypeOfWork>& vector_of_works, int access);  // проверка на существование файла
-int getCountOfTypesOfWorkInFile(string file_path);  // считывем из файла количество типов работ
+/* Чтение данных о проекте из файла*/
+// Проверка на существование файла
+void doesFileExist(vector <TypeOfWork>& vector_of_works, int access);  
+// Считывем из файла количество типов работ
+int getCountOfTypesOfWorkInFile(string file_path);  
 
 void menu(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works);
-//регистрация
+// Регистрация
 void singUp(vector <Account>& vector_of_accaunts);
+// Создания логина и пароля
 void createLoginAndPassword(Account& account_temp, vector <Account>& vector_of_accaunts, int choice);
+// Шифрование пароля
 void hashPassword(Account& account_temp);
-string generateSalt(int salt_size); // функция генерации соли
-string getSymbolsForSalt(); // функция формирования набора символов
-//вход
+// Функция генерации соли
+string generateSalt(int salt_size); 
+// Функция формирования набора символов
+string getSymbolsForSalt(); 
+// Вход
 void logIn(vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works);
-bool compareInputData(Account& account_temp, vector <Account>& vector_of_accaunts); // проверка при авторизации на правильность лгина и пароля 
+// Проверка при авторизации на правильность лгина и пароля 
+bool compareInputData(Account& account_temp, vector <Account>& vector_of_accaunts); 
+// Вход в меню соответствующее роли аккаунта
 void enterMenu(Account account_temp, vector <Account>& vector_of_accaunts, vector<TypeOfWork>& vector_of_works);
-void hideInput(Account& account_temp); // скрытый ввод пароля со *
+// Скрытый ввод пароля со *
+void hideInput(Account& account_temp); 

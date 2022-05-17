@@ -26,7 +26,9 @@ void readAccountsBase(vector <Account>& vector_of_accaunts)
 	ifstream fin(FILE_ACCOUNTS, ios::binary | ios::in);
 	if (!fin.is_open())
 	{
-		cout << "File doesn't exist!\nYou became head admin\n!!! CONGRATULATIONS !!!" << endl;
+		cout << "File doesn't exist!\nYou became head admin" << endl;
+		pause();
+		clearConsole();
 		singUp(vector_of_accaunts);
 	}
 	else
@@ -61,6 +63,7 @@ void doesFileExist(vector <TypeOfWork>& vector_of_works, int access)
 		clearConsole();
 		cout << "File with data doesn't exist!" << endl;
 		pause();
+		clearConsole();
 		if (access == 1) // если админ считывает файл, а он пустой то предлагаем создать новый
 		{
 			cout << "Do you want to create new one?" << endl;
@@ -135,7 +138,7 @@ void singUp(vector <Account>& vector_of_accaunts)
 	{
 		account_temp.role = HEAD_ADMIN; // главный администратор
 		account_temp.status = ACTIVATED_ACCOUNT;
-		vector_of_accaunts.at(0) = account_temp;
+		vector_of_accaunts.push_back(account_temp);
 		rewriteAccount(account_temp);
 	}
 	else
