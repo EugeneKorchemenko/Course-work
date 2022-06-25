@@ -1,3 +1,3 @@
 Course work
-This is version 0.2
-There only work with data
+It's a finall version
+P.S. f***ing bull**it
