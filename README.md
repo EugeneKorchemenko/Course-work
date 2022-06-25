@@ -1,3 +1,3 @@
 Course work
 It's a finall version
-P.S. f***ing bull**it
+P.S. sweet piece of bullshit
